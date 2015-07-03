@@ -1,0 +1,225 @@
+<form class="form-horizontal" ng-submit="saveTask()" name="addTaskForm">
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">ประเภทเอกสาร</label>
+		
+		<div class="col-sm-5">
+			<select ng-change="docTypeChange()" ng-disabled="isDisable" ng-required="true" class="form-control" ng-model="docType" ng-options="i.id as i.label for i in docTypeDesc">
+				<option value="">-- เลือกประเภทเอกสาร--</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">ชื่อบริษัท</label>
+		<div class="col-sm-5">
+			<input ng-disabled="isDisable" ng-required="true" type="text" class="form-control" placeholder="ชื่อบริษัท" ng-model="companyName">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">ที่อยู่</label>
+		<div class="col-sm-5">
+			<textarea ng-disabled="isDisable" class="form-control" rows="3" placeholder="ที่อยู่" ng-model="address" style="resize:none"></textarea>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">ชื่อผู้ติดต่อ</label>
+		<div class="col-sm-5">
+			<input ng-disabled="isDisable" ng-required="true" type="text" class="form-control" placeholder="ชื่อผู้ติดต่อ" ng-model="contactPersonName">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">เบอร์โทรศัพท์</label>
+		<div class="col-sm-5">
+			<input ng-disabled="isDisable" type="text" class="form-control" placeholder="เบอร์โทรศัพท์" ng-model="contactPersonTel">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">เบอร์แฟกซ์</label>
+		<div class="col-sm-5">
+			<input ng-disabled="isDisable" type="text" class="form-control" placeholder="เบอร์แฟกซ์" ng-model="contactPersonFax">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">ชื่อผู้ออกเอกสาร</label>
+		<div class="col-sm-5">
+			<input ng-disabled="isDisable" ng-required="true" type="text" class="form-control" placeholder="ชื่อผู้ออกเอกสาร" ng-model="userName">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">เบอร์โทรศัพท์</label>
+		<div class="col-sm-5">
+			<input ng-disabled="isDisable" type="text" class="form-control" placeholder="เบอร์โทรศัพท์ผู้ออกเอกสาร" ng-model="userTel">
+		</div>
+	</div>
+	<div class="form-group" ng-show="isPR">
+		<label class="col-sm-5 control-label font-color-white-ext">เงื่อนใขการชำระเงิน</label>
+		<div class="col-sm-5">
+			<input ng-disabled="isDisable" type="text" class="form-control" placeholder="เงื่อนใขการชำระเงิน" ng-model="payCondition">
+		</div>
+	</div>
+	<div class="form-group" ng-show="isPR">
+		<label class="col-sm-5 control-label font-color-white-ext">สถานที่ส่งของ</label>
+		<div class="col-sm-5">
+			<input ng-disabled="isDisable" type="text" class="form-control" placeholder="สถานที่ส่งของ" ng-model="placeToSend">
+		</div>
+	</div>
+	<div class="form-group" ng-show="isPR">
+		<label class="col-sm-5 control-label font-color-white-ext">กำหนดส่งของ</label>
+		<div class="col-sm-5">
+			<input ng-disabled="isDisable" type="text" class="form-control" placeholder="กำหนดส่งของ" ng-model="dateToSend">
+		</div>
+	</div>	
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">อื่นๆ</label>
+		<div class="col-sm-5">
+			<textarea ng-disabled="isDisable" class="form-control" rows="3" placeholder="อื่นๆ" ng-model="comments" style="resize:none"></textarea>
+		</div>
+	</div>
+	
+	
+	<!-- ------------------------------------------------------------------------------- -->
+
+	<div class="container-fluid rounded-border2-ext" style="margin-bottom:10px; padding-top: 10px;background-color: white;">
+		<table class="table table-striped table-bordered table-hover rounded-border2-ext">
+
+			<col style="width: 6%">
+			<col style="width: 10%">
+			<col style="width: 48%">
+			<col style="width: 7%">
+			<col style="width: 7%">
+			<col style="width: 10%">
+			<col style="width: 8%">
+			<col style="width: 4%">
+			<thead class="font-color-white-ext" style="background-color: #DA6307;">
+				<tr align="center">
+					<td>ลำดับที่<br />Item</td>
+					<td>รหัสสินค้า<br />Product Code</td>
+					<td>รายการ<br />Description</td>
+					<td>จำนวน <br />Quantity</td>
+					<td>หน่วย <br />Unit</td>
+					<td>ราคา/หน่วย	<br />Unit Price</td>
+					<td>จำนวนเงิน <br />Amount</td>
+					<td style="vertical-align: middle;">
+						<img ng-show='!isDisable' title="เพิ่มรายการ" src="../../assets/img/add_icon.png" ng-click="addTaskItem()" />
+					</td>
+				</tr>
+			</thead>
+			<tbody class="tb-body-add-task-ext">	
+				<tr ng-repeat="x in taskItems track by $index">
+					<td style="vertical-align: middle;">{{ $index + 1 }}</td>
+					<td><input ng-disabled="isDisable" type="text" class="form-control" ng-model="x.partNo"></td>
+					<td><input ng-disabled="isDisable" type="text" class="form-control" ng-model="x.itemName"></td>
+					<td><input ng-disabled="isDisable" type="text" class="form-control" ng-model="x.quantity" dir="rtl"></td>
+					<td><input ng-disabled="isDisable" type="text" class="form-control" ng-model="x.unit"></td>
+					<td><input ng-disabled="isDisable || isQuote" type="text" class="form-control" ng-model="x.unitPrice" dir="rtl" ng-keypress="keyEnter($event)"></td>
+					<td style="vertical-align: middle;">{{ (x.amount = x.quantity * x.unitPrice) | number : 2 }}</td>
+					<td style="vertical-align: middle;">
+						<img  ng-show="!isDisable && isShowDelete" title="ลบรายการ" src="../../assets/img/delete_icon.png" ng-click="deleteTaskItem($index)" />
+					</td>
+				</tr>
+			</tbody>
+			<tfoot ng-show="!isQuote" class="font-color-white-bold-ext" style="background-color:#DA6307; color:white;	font-weight: bold;">
+				<tr>
+					<td rowspan="5" colspan="3" style="vertical-align: middle; text-align: center;">
+						<div ng-show="docType == 2 && isDisable">
+							<input type="checkbox" ng-model="isSold" ng-disabled="vatObj != null" ng-checked="vatObj != null" /> <span style="font-size: 24px; font-style: italic; color: blue;">ลูกค้าสั่งซื้อแล้ว</span>	
+						</div>
+					</td>
+					<td colspan="2">รวมเงิน</td>
+					<td colspan="2" align="right">{{ (firstPrice = (taskItems | sumFilter )) | number : 2 }}</td>
+					<td></td>
+				</tr>
+				<!-- <tr>
+					<td colspan="2" style="vertical-align: middle;">ส่วนลด</td>
+					<td colspan="2" align="right">
+						<input ng-disabled="isDisable" type="text" class="form-control" dir="rtl" ng-model="discount">
+					</td>
+					<td></td>
+				</tr> -->
+				<!-- <tr>
+					<td colspan="2">หลังหักส่วนลด</td>
+					<td colspan="2" align="right" >{{ (afterDiscount = firstPrice - discount) | number : 2 }}</td>
+					<td></td>
+				</tr> -->
+				<!-- <tr>
+					<td colspan="2">ภาษีมวลค่าเพิ่ม 7%</td>
+					<td colspan="2" align="right">{{ (vat = afterDiscount * 0.07) | number : 2 }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="2">จำนวนเงินทั้งสิ้น</td>
+					<td colspan="2" align="right">{{ (totalPrice = afterDiscount +  vat) | number : 2 }}</td>
+					<td></td>
+				</tr> -->
+				<tr>
+					<td colspan="2">ภาษีมวลค่าเพิ่ม 7%</td>
+					<td colspan="2" align="right">{{ (vat = firstPrice * 0.07) | number : 2 }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="2">จำนวนเงินทั้งสิ้น</td>
+					<td colspan="2" align="right">{{ (totalPrice = firstPrice +  vat) | number : 2 }}</td>
+					<td></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	
+	<!-- ------------------------------------------------------------------------------- -->
+	
+	<div class="form-group text-align-center-ext">
+		<button ng-show='!isDisable' class="btn btn-default btn-ext">{{ saveBtnMsg }}</button>
+		<!-- <button type="button" ng-disabled="isDisable" class="btn btn-default btn-ext" ng-click='clear()'>ล้างข้อมูล</button> -->
+		<button ng-show='isDisable' class="btn btn-default btn-ext" type="button" ng-click="exportFile(taskId, 0)">export</button>
+		<button class="btn btn-default btn-ext" type="button" ng-show="docType == 2 && isDisable" ng-model="isSold" ng-disabled="!isSold" ng-click="openModalDialog()">ออก VAT</button>
+		<button class="btn btn-default btn-ext" type="button" ng-click='goBack()'>{{ backBtnMsg }}</button>
+	</div>
+	
+	<input type="hidden" name="itemId" />
+	<input type="hidden" name="isVat" />
+	
+</form>
+
+ <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">ออกใบกำกับภาษี</h3>
+        </div>
+        <div class="modal-body">
+			<div class="form-group">
+    			<label>ที่อยู่</label>
+				<textarea class="form-control" rows="2" ng-model="data.address"></textarea>
+  			</div>
+			<div class="form-group">
+    			<label>เงื่อนใขการชำระเงิน</label>
+    			<input type="text" class="form-control" ng-model="data.payCondition">		
+  			</div>
+			<!--<div class="form-group">
+    			<label>กำหนดชำระเงิน</label>
+    			<input type="text" class="form-control" ng-model="data.payDate">		
+  			</div>-->
+
+
+			<div class="row" style="margin-left: 1px; margin-bottom: 15px;">
+				<label>กำหนดชำระเงิน</label>
+				<div class="col-sm-5 input-group">
+					<input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="data.payDate" is-open="data.openedStart" close-text="Close" /> 
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default" ng-click="openStart($event)">
+						<i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</div>
+			</div>
+
+
+
+			<div class="form-group">
+    			<label>เลขที่ใบสั่งสินค้า</label>
+    			<input type="text" class="form-control" ng-model="data.poNo">		
+  			</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+</script>
+    
+    

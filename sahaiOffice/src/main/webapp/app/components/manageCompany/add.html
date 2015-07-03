@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Insert title here</title>
+<script src="../../resources/js/angular.min.js"></script>
+<script src="../../resources/js/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<link rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+
+<script>
+	var app = angular.module('addCompanyInfoModule', []);
+	
+	app.controller('addCompanyInfoCtrl', function($scope, $http) {
+		$scope.companyTypeDesc = [{
+			id: 1,
+		  	label: 'Supplier'
+	    }, {
+	    	id: 2,
+	    	label: 'Customer'
+	    }];	
+
+	    $scope.companyType;    
+	    $scope.companyName;    
+	    $scope.address;    
+	    $scope.comments;    
+
+		/*---------------------------------------------*/
+	    
+		$scope.save = function() {
+			var msg;
+			
+			if($scope.companyType == null){
+				msg = "กรุณาเลือกประเภทบริษัท";
+			}else if($scope.companyName == null || $scope.companyName.trim().length == 0){
+				msg = "กรุณาเลือกกรอกชื่อบริษัท";
+			}
+
+			if(msg != null) {
+				alert(msg);
+				return;
+			}
+						
+			$http.post('http://localhost:8080/SahaiOffice/rest/company/save', 
+		    	{
+					companyType : $scope.companyType,
+					companyName : $scope.companyName,    
+					address     : $scope.address,
+					comments    : $scope.comments    
+				}).success(function(response) {
+			    	$scope.result = response;
+			    });  
+		}	    
+	});
+</script>
+
+<style>
+.btn-ext {
+	width: 100px;
+}
+
+.text-align-center-ext {
+	text-align: center;
+}
+
+.gradient {
+	 background-image:
+    radial-gradient(
+      #E68A00,
+      #800000
+    );
+}
+
+.font-color-white-ext{
+	color:white;
+}
+
+.rounded-border-ext{
+    border: 2px solid;
+    border-radius: 15px;
+    box-shadow: 5px 5px 5px #00001A;
+}
+
+</style>
+</head>
+<body ng-app="addCompanyInfoModule">
+
+	<div ng-controller="addCompanyInfoCtrl" class="container gradient rounded-border-ext" style="margin-top: 10px; margin-bottom: 10px;">
+	
+		<div class="text-align-center-ext font-color-white-ext" style="margin-top: 30px; margin-bottom: 30px;">
+			<h1>Sahai Back Office</h1>
+		</div>
+		
+		<form class="form-horizontal">
+			<div class="form-group font-color-white-ext">
+				<label class="col-sm-5 control-label">เลือกประเภทบริษัท</label>
+				<div class="col-sm-5">
+					<select class="form-control" ng-model="companyType" ng-options="i.id as i.label for i in companyTypeDesc">
+						<option value="">-- เลือกประเภทบริษัท--</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group font-color-white-ext">
+				<label class="col-sm-5 control-label">ชื่อบริษัท</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" placeholder="ชื่อบริษัท" ng-model="companyName">
+				</div>
+			</div>	
+			<div class="form-group font-color-white-ext">
+				<label class="col-sm-5 control-label">ที่อยู่</label>
+				<div class="col-sm-5">
+					<textarea class="form-control" rows="5" placeholder="ที่อยู่" ng-model="address" style="resize:none"></textarea>
+				</div>
+			</div>
+			<div class="form-group font-color-white-ext">
+				<label class="col-sm-5 control-label">อื่นๆ</label>
+				<div class="col-sm-5">
+					<textarea class="form-control" rows="3" placeholder="อื่นๆ" ng-model="comments" style="resize:none"></textarea>
+				</div>
+			</div>
+			
+			
+			<div class="form-group text-align-center-ext">
+				<button class="btn btn-default btn-ext" ng-click="save()">บันทึก</button>
+				<button class="btn btn-default btn-ext">ล้างข้อมูล</button>
+			</div>
+			
+		</form>
+
+		
+	</div>
+
+</body>
+</html>
