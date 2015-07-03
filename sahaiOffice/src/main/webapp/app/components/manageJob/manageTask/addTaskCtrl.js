@@ -152,7 +152,7 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 	};
 	
 	$scope.exportFile = function(isVat) {
-		document.addTaskForm.action = urlContext + "/exportHandler";
+		document.addTaskForm.action = urlContext+'/exportHandler/getPdfFile';
 		document.addTaskForm.itemId.value = $scope.taskId;
 		document.addTaskForm.isVat.value = isVat;
 		document.addTaskForm.submit();

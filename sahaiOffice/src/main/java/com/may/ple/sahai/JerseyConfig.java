@@ -6,6 +6,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
 import com.may.ple.sahai.web.CompanyInfoAction;
+import com.may.ple.sahai.web.ExportHandler;
 import com.may.ple.sahai.web.JobAction;
 import com.may.ple.sahai.web.TaskAction;
 
@@ -17,6 +18,7 @@ public class JerseyConfig extends ResourceConfig {
 		register(CompanyInfoAction.class);
 		register(JobAction.class);
 		register(TaskAction.class);
+		register(ExportHandler.class);
 	}
 
 }
