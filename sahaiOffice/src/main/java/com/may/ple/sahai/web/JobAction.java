@@ -1,4 +1,4 @@
-/*package com.may.ple.sahai.web;
+package com.may.ple.sahai.web;
 
 import java.util.List;
 import java.util.Map;
@@ -12,17 +12,28 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import com.may.ple.sahai.office.dao.JobDao;
-import com.may.ple.sahai.office.entity.BuySaleJobReq;
-import com.may.ple.sahai.office.entity.BuySaleJobResp;
-import com.may.ple.sahai.office.entity.CommonResp;
-import com.may.ple.sahai.office.service.JobService;
+import com.may.ple.sahai.domain.BuySaleJobReq;
+import com.may.ple.sahai.domain.BuySaleJobResp;
+import com.may.ple.sahai.domain.CommonResp;
+import com.may.ple.sahai.repository.JobDao;
+import com.may.ple.sahai.service.JobService;
 import com.mongodb.BasicDBObject;
 
+@Component
 @Path("jobAction")
 public class JobAction extends AbstractAction {
 	private static final Logger log = Logger.getLogger(JobAction.class.getName());
+	private JobService jobService;
+	private JobDao jobDao;
+	
+	@Autowired
+	public JobAction(JobService jobService, JobDao jobDao) {
+		this.jobService = jobService;
+		this.jobDao = jobDao;
+	}
 	
 	@POST
     @Path("/saveJob")
@@ -38,9 +49,9 @@ public class JobAction extends AbstractAction {
 			validateReq(req);
 			
 			// 2. Prepare data for persistence
-			BasicDBObject dbObj = new JobService().prepareSaveJob(req);
+			BasicDBObject dbObj = jobService.prepareSaveJob(req);
 			
-			new JobDao().save(dbObj);
+			jobDao.save(dbObj);
 			
 			resp.setStatus("0");
 		} catch (Exception e) {
@@ -64,9 +75,9 @@ public class JobAction extends AbstractAction {
 			validateReq(req);
 			
 			// 2. Prepare data for search
-			BasicDBObject dbObj = new JobService().prepareSearchJob(req);
+			BasicDBObject dbObj = jobService.prepareSearchJob(req);
 			
-			Map<String, Object> searchResult = new JobDao().searchJob(dbObj, req.getCurrentPage(), req.getItemsPerPage());
+			Map<String, Object> searchResult = jobDao.searchJob(dbObj, req.getCurrentPage(), req.getItemsPerPage());
 			resp.setSearchLst((List<BuySaleJobReq>)searchResult.get("searchLst"));
 			resp.setTotalItems((Long)searchResult.get("totalItems"));
 			
@@ -92,7 +103,7 @@ public class JobAction extends AbstractAction {
 			validateReq(jobId, userName);
 			
 			// 2. Process delete
-			new JobDao().delete(jobId, userName);
+			jobDao.delete(jobId, userName);
 			
 			resp.setStatus("0");
 		} catch (Exception e) {
@@ -117,7 +128,7 @@ public class JobAction extends AbstractAction {
 			validateReq(req);
 			
 			// 2. Get data
-			resp = new JobDao().viewJob(req);
+			resp = jobDao.viewJob(req);
 			
 			resp.setStatus("0");
 		} catch (Exception e) {
@@ -142,9 +153,9 @@ public class JobAction extends AbstractAction {
 			validateReq(req);
 			
 			// 2. Process updating
-			BasicDBObject dbObj = new JobService().prepareUpdateJob(req);
+			BasicDBObject dbObj = jobService.prepareUpdateJob(req);
 			
-			new JobDao().update(new BasicDBObject("$set", dbObj), req.getId());
+			jobDao.update(new BasicDBObject("$set", dbObj), req.getId());
 			
 			resp.setStatus("0");
 		} catch (Exception e) {
@@ -157,4 +168,3 @@ public class JobAction extends AbstractAction {
 	}
 	
 }
-*/

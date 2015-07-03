@@ -1,5 +1,6 @@
 package com.may.ple.sahai.web;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,6 +9,7 @@ import com.may.ple.sahai.service.CustomerService;
 
 @RestController
 public class CustomerController {
+	private static Logger log = Logger.getLogger(CustomerController.class.getName());
 	private CustomerService customerServic;
 
 	@Autowired
@@ -17,6 +19,7 @@ public class CustomerController {
 	
 	@RequestMapping("/hello")
 	public String hello() {
+		log.debug("Start hello...");
 		String restult = null;
 		
 		try {

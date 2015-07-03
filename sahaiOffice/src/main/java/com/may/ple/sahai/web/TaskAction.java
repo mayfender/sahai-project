@@ -1,4 +1,4 @@
-/*package com.may.ple.sahai.web;
+package com.may.ple.sahai.web;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -9,18 +9,29 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import com.may.ple.sahai.office.dao.TaskDao;
-import com.may.ple.sahai.office.entity.BuySaleTaskReq;
-import com.may.ple.sahai.office.entity.BuySaleTaskResp;
-import com.may.ple.sahai.office.entity.CommonResp;
-import com.may.ple.sahai.office.entity.VatSaveReq;
-import com.may.ple.sahai.office.service.TaskService;
+import com.may.ple.sahai.domain.BuySaleTaskReq;
+import com.may.ple.sahai.domain.BuySaleTaskResp;
+import com.may.ple.sahai.domain.CommonResp;
+import com.may.ple.sahai.domain.VatSaveReq;
+import com.may.ple.sahai.repository.TaskDao;
+import com.may.ple.sahai.service.TaskService;
 import com.mongodb.BasicDBObject;
 
+@Component
 @Path("taskAction")
 public class TaskAction extends AbstractAction {
 	private static final Logger log = Logger.getLogger(TaskAction.class.getName());
+	private TaskService taskService;
+	private TaskDao taskDao;
+	
+	@Autowired
+	public TaskAction(TaskService taskService, TaskDao taskDao) {
+		this.taskService = taskService;
+		this.taskDao = taskDao;
+	}
 	
 	@POST
     @Path("/saveTask")
@@ -36,10 +47,10 @@ public class TaskAction extends AbstractAction {
 			validateReq(req);
 			
 			// 2. 
-			BasicDBObject dbObj = new TaskService().prepareJobData(req, 1);
+			BasicDBObject dbObj = taskService.prepareJobData(req, 1);
 			dbObj.append("jobId", req.getJobId());
 			
-			new TaskDao().saveTask(dbObj);
+			taskDao.saveTask(dbObj);
 			
 			resp.setStatus("0");
 		} catch (Exception e) {
@@ -61,7 +72,7 @@ public class TaskAction extends AbstractAction {
 			validateReq(jobId);
 			
 			// 2.
-			resp.setTasks(new TaskDao().showTasks(jobId));
+			resp.setTasks(taskDao.showTasks(jobId));
 			
 			resp.setStatus("0");
 		} catch (Exception e) {
@@ -85,7 +96,7 @@ public class TaskAction extends AbstractAction {
 			validateReq(taskId);
 			
 			// 2.
-			resp = new TaskDao().findTask(taskId);
+			resp = taskDao.findTask(taskId);
 			
 			resp.setStatus("0");
 		} catch (Exception e) {
@@ -111,8 +122,8 @@ public class TaskAction extends AbstractAction {
 			validateReq(req);
 			
 			// 2.
-			BasicDBObject dbObj = new TaskService().prepareJobData(req, 2);
-			new TaskDao().update(dbObj, req.getId());
+			BasicDBObject dbObj = taskService.prepareJobData(req, 2);
+			taskDao.update(dbObj, req.getId());
 			
 			resp.setStatus("0");
 		} catch (Exception e) {
@@ -134,7 +145,7 @@ public class TaskAction extends AbstractAction {
 			validateReq(taskId, userName);
 			
 			// 2.
-			new TaskDao().delete(taskId, userName);
+			taskDao.delete(taskId, userName);
 			
 			resp.setStatus("0");
 		} catch (Exception e) {
@@ -158,12 +169,12 @@ public class TaskAction extends AbstractAction {
 			validateReq(taskId, userName);
 			
 			// 2.
-			BuySaleTaskReq buySaleTaskReq = new TaskDao().findTask(taskId);
+			BuySaleTaskReq buySaleTaskReq = taskDao.findTask(taskId);
 			
 			// 3.
-			BasicDBObject dbObj = new TaskService().prepareJobData(buySaleTaskReq, 1);
+			BasicDBObject dbObj = taskService.prepareJobData(buySaleTaskReq, 1);
 			dbObj.append("jobId", buySaleTaskReq.getJobId());
-			new TaskDao().saveTask(dbObj);
+			taskDao.saveTask(dbObj);
 			
 			resp.setStatus("0");
 		} catch (Exception e) {
@@ -186,9 +197,7 @@ public class TaskAction extends AbstractAction {
 			log.debug("Start");
 			log.debug(req);
 			
-			BasicDBObject dbObj = new TaskService().prepareVatSave(req);
-			
-			TaskDao taskDao = new TaskDao();
+			BasicDBObject dbObj = taskService.prepareVatSave(req);
 			
 			taskDao.update(dbObj, req.getTaskId());
 			resp = taskDao.findVat(req.getTaskId());
@@ -203,4 +212,3 @@ public class TaskAction extends AbstractAction {
 	}
 
 }
-*/
