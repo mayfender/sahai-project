@@ -1,0 +1,78 @@
+html {
+    overflow-y: scroll;
+}
+body {
+    min-height: 800px;
+}
+
+.btn-ext {
+	width: 100px;
+}
+
+.text-align-center-ext {
+	text-align: center;
+}
+
+.gradient {
+	 background-image:
+    radial-gradient(
+      #E68A00,
+      #800000
+    );
+}
+
+.font-color-white-ext{
+	color:white;
+}
+
+.rounded-border-ext{
+    border: 2px solid;
+    border-radius: 15px;
+    box-shadow: 5px 5px 5px #00001A;
+}
+
+.rounded-border2-ext {
+    border: 1px solid;
+    border-radius: 15px;
+    box-shadow: 10px 10px 25px #00001A;
+}
+
+tbody td:nth-child(1) {
+  text-align: center;
+}
+tbody td:nth-child(2) {
+  text-align: center;
+}
+tbody td:nth-child(5) {
+  text-align: center;
+}
+tbody td:nth-child(6) {
+  text-align: center;
+}
+tbody td:nth-child(8) {
+  text-align: center;
+}
+
+
+.tb-body-task-ext td:nth-child(1) {
+  text-align: center;
+}
+.tb-body-task-ext td:nth-child(2) {
+  text-align: center;
+}
+.tb-body-task-ext td:nth-child(5) {
+  text-align: left;
+}
+.tb-body-task-ext td:nth-child(6) {
+  text-align: left;
+}
+.tb-body-task-ext td:nth-child(7) {
+  text-align: left;
+}
+.tb-body-task-ext td:nth-child(8) {
+  text-align: center;
+}
+
+.tb-body-add-task-ext td:nth-child(7) {
+  text-align: right;
+}

@@ -31,11 +31,11 @@ public class CompanyInfoAction {
 	public String test() {
 		
 		log.debug("Start test");
-		BasicDBObject dbObj = new BasicDBObject("name", "name-a")
+		/*BasicDBObject dbObj = new BasicDBObject("name", "name-a")
 		.append("age", "age-b")
 		.append("birthDate", new Date());
 		
-		companyInfoDao.save(dbObj);
+		companyInfoDao.save(dbObj);*/
 		log.debug("End test");
 		
 		return "Success";

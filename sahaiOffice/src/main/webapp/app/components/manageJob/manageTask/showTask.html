@@ -1,0 +1,48 @@
+<div style="margin-bottom: 10px; text-align: center;">
+	<button class="btn btn-default btn-ext" type="button" ng-click='goBack()'>กลับ</button>
+</div>
+<form class="form-horizontal">
+	<div class="container-fluid rounded-border2-ext" style="margin-bottom:10px; padding-top:10px; background-color: white;">
+		<table class="table table-striped table-bordered table-hover rounded-border2-ext">
+			<col style="width: 6%">
+			<col style="width: 14%">
+			<col style="width: 10%">
+			<col style="width: 11%">
+			<col style="width: 30%">
+			<col style="width: 8%">
+			<col style="width: 9%">
+			<col style="width: 12%">
+			<thead class="font-color-white-ext" style="background-color: #DA6307;">
+				<tr align="center">
+					<td>ลำดับที่<br />Item</td>
+					<td>วันที่<br />Date</td>
+					<td>เลขที่เอกสาร<br />Doc No.</td>
+					<td>ปรเภทเอกสาร<br />Doc Type.</td>
+					<td>ชื่อบริษัท <br />Company Name</td>
+					<td>ผู้ติดต่อ<br />Contact</td>
+					<td>ผู้ออกเอกสาร<br />Worker</td>
+					<td style="vertical-align: middle;">
+						<img title="เพิ่มทาสก์" src="../../assets/img/add_icon.png" ng-click="addTask()" width="30" style="cursor: pointer;" />
+					</td>
+				</tr>
+			</thead>
+			<tbody class="tb-body-task-ext">	
+				<tr ng-repeat="x in tasks track by $index">
+						<td style="vertical-align: middle;">{{ $index + 1 }}</td>
+						<td>{{ x.createdDateTime }}</td>
+						<td>{{ x.docNo }}</td>
+						<td>{{ docTypeDesc[x.docType - 1].label }}</td>
+						<td>{{ x.companyName }}</td>
+						<td>{{ x.contactPersonName }}</td>
+						<td>{{ x.userName }}</td>
+						<td>
+							<img style="cursor: pointer;" title="ลบทาสก์" src="../../assets/img/delete_icon.png" ng-click="deleteTask(x.id)" width="20" /> 
+							<img style="cursor: pointer;" title="copy" src="../../assets/img/copy_icon.png" ng-click="copyTask(x.id)" width="20" /> 
+							<img style="cursor: pointer;" title="แก้ใขทาสก์" src="../../assets/img/setting_icon.png" ng-click="editTask(x.id)" width="20" /> 
+							<img style="cursor: pointer;" title="แสดงทาสก์" src="../../assets/img/view_icon.png" ng-click="viewTask(x.id)" width="25" /> 
+						</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</form>

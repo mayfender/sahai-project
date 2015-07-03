@@ -1,0 +1,28 @@
+
+<form class="form-horizontal" ng-submit="saveJob()">
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">จ๊อบเนม</label>
+		<div class="col-sm-5">
+			<input ng-required="true" type="text" class="form-control" ng-model="formData2.jobName">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">ชื่อบริษัทลูกค้า</label>
+		<div class="col-sm-5">
+			<input ng-required="true" type="text" class="form-control" ng-model="formData2.companyName">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">หมายเหตุ</label>
+		<div class="col-sm-5">
+			<textarea class="form-control" rows="3"
+				ng-model="formData2.comments" style="resize: none"></textarea>
+		</div>
+	</div>
+
+	<div class="form-group text-align-center-ext">
+		<button class="btn btn-default btn-ext">{{ saveBtnMsg }}</button>
+		<!-- <button class="btn btn-default btn-ext" type="button" ng-click='clear()'>ล้างข้อมูล</button> -->
+		<button class="btn btn-default btn-ext" type="button" ng-click='goBack()'>ยกเลิก</button>
+	</div>
+</form>

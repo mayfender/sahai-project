@@ -1,0 +1,84 @@
+a.css3dbutton {
+    background: #c1e75c; /* default green background color of button */
+    color: black;
+    text-decoration: none;
+    font: bold 12px Arial; /* font size and style */
+    position: relative;
+    display: inline-block;
+    margin-right: 3px; /* spacing between multiple buttons */
+    padding: 5px; /* padding inside button */
+    border-radius: 85px; /* border radius of button */
+    width: 65px; /* dimensions of button */
+    height: 65px;
+    outline: none;
+    box-shadow: 0 8px 0 #8dab3b, /* depth and color of main shadow */
+        0 0 3px rgba(0,0,0, 0.2),
+        0 3px 0px #eee;
+    -moz-transition: all 0.2s ease-in-out; /* transition style and duration */
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+a.css3dbutton span.outer{ /* outermost text container */
+    text-align: center;
+    width: 100%;
+    display: block;
+    position: relative;
+    top: 50%; /* center element */
+    -webkit-transform: translateY(-50%); /* center element */
+    -ms-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    transform: translateY(-50%); 
+}
+
+a.css3dbutton span.outer span.top{ /* top line */
+    display: block;
+    padding-bottom: 4px;
+}
+
+a.css3dbutton:hover {
+    background: #9cc62b; /* background color when mouse rolls over button */
+    box-shadow:  none;
+    -ms-transform: translateY(8px); /* shift button downwards by shadow depth amount */
+    -webkit-transform: translate3D(0, 8px, 0);
+    -moz-transform: translateY(8px);
+    transform: translate3D(0, 8px, 0);
+}
+
+
+a.css3dbutton.blue{
+    background: #a6e9f7;
+    box-shadow: 0 8px 0 #529dad, /* depth and color of main shadow */
+        0 0 3px rgba(0,0,0, 0.2),
+        0 3px 0px #eee;
+}
+
+a.css3dbutton.blue:hover {
+    background: #66cbe1; /* background color when mouse rolls over button */
+    box-shadow: none;
+}
+
+a.css3dbutton.pink{
+    background: #fbbaba;
+    box-shadow: 0 8px 0 #d74848, /* depth and color of main shadow */
+        0 0 3px rgba(0,0,0, 0.2),
+        0 3px 0px #eee;
+}
+
+a.css3dbutton.pink:hover {
+    background: #ea6161; /* background color when mouse rolls over button */
+    box-shadow: none;
+}
+
+a.css3dbutton.yellow{
+    background: #f3fa86;
+    box-shadow: 0 8px 0 #dbcd2f, /* depth and color of main shadow */
+        0 0 3px rgba(0,0,0, 0.2),
+        0 3px 0px #eee;
+}
+
+a.css3dbutton.yellow:hover {
+    background: #ecd347; /* background color when mouse rolls over button */
+    box-shadow: none;
+}

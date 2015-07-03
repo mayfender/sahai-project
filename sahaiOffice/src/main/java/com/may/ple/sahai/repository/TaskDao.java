@@ -54,7 +54,7 @@ public class TaskDao {
 			int month = Calendar.getInstance().get(Calendar.MONTH);
 			
 			BasicDBObject match = new BasicDBObject();
-			match.put("$match", new BasicDBObject("year", year).append("month", month + 1));
+			match.put("$match", new BasicDBObject("year", year).append("month", month + 1).append("isDeleted", new BasicDBObject("$ne", true)));
 			
 			AggregationOutput output = coll.aggregate(project, match);
 			
