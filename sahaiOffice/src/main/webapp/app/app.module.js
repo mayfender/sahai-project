@@ -1,6 +1,6 @@
 var backOffice = angular.module('backOffice', ['ui.router', 'ui.bootstrap', 'angularSpinner']);
 
-backOffice.value('urlContext', 'http://localhost:8080/SahaiOffice');
+backOffice.value('urlContext', 'http://localhost:8080/sahaiOffice/resResource');
 
 backOffice.run(function($rootScope, usSpinnerService) {
 	$rootScope.startSpin = function(){
@@ -31,7 +31,7 @@ backOffice.config(function($stateProvider, $urlRouterProvider, usSpinnerConfigPr
 		resolve    : {
 				searchObj : function($rootScope, $http, $stateParams, urlContext){
 					$rootScope.startSpin();
-					return $http.post(urlContext+'/rest/jobAction/searchJob',
+					return $http.post(urlContext+'/jobAction/searchJob',
 							{
 							companyName       : null,
 				    		jobName           : null,
@@ -67,7 +67,7 @@ backOffice.config(function($stateProvider, $urlRouterProvider, usSpinnerConfigPr
 		   editObj : function($rootScope, $http, $stateParams, urlContext){
 				if($stateParams.jobId) {
 					$rootScope.startSpin();
-					return $http.post(urlContext+'/rest/jobAction/viewJob', $stateParams.jobId).
+					return $http.post(urlContext+'/jobAction/viewJob', $stateParams.jobId).
 					then(function(resp){
 				    	   if(resp.data.status != 0) {
 				    		   console.log('Have error!');
@@ -95,7 +95,7 @@ backOffice.config(function($stateProvider, $urlRouterProvider, usSpinnerConfigPr
 		resolve    : {
 			tasks : function($rootScope, $http, $stateParams, urlContext){
 					$rootScope.startSpin();
-					return $http.get(urlContext+'/rest/taskAction/showTasks?jobId='+$stateParams.jobId).
+					return $http.get(urlContext+'/taskAction/showTasks?jobId='+$stateParams.jobId).
 					then(function(resp){
 				    	   if(resp.data.status != 0) {
 				    		   console.log('Have error!');
@@ -122,7 +122,7 @@ backOffice.config(function($stateProvider, $urlRouterProvider, usSpinnerConfigPr
 			taskObj : function($rootScope, $http, $stateParams, urlContext){
 				if($stateParams.taskId) {
 					$rootScope.startSpin();
-					return $http.get(urlContext+'/rest/taskAction/findTask?taskId='+$stateParams.taskId).
+					return $http.get(urlContext+'/taskAction/findTask?taskId='+$stateParams.taskId).
 					then(function(resp){
 				    	   if(resp.data.status != 0) {
 				    		   console.log('Have error!');

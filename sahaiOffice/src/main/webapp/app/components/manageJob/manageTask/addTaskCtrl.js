@@ -18,7 +18,7 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 		console.log(taskObj);
 		
 		$scope.saveBtnMsg = 'แก้ใข';
-		url = urlContext+'/rest/taskAction/updateTask';
+		url = urlContext+'/taskAction/updateTask';
 		
 		if($stateParams.mode === 'v') {
 			$scope.isDisable = true;
@@ -64,7 +64,7 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 	}else{
 		$scope.isDisable = false;
 		$scope.saveBtnMsg = 'บันทึก';
-		url = urlContext+'/rest/taskAction/saveTask';
+		url = urlContext+'/taskAction/saveTask';
 	}
 	
 	$scope.firstPrice;
@@ -215,7 +215,7 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 		});		
 		
 		 modalInstance.result.then(function (result) {
-			 $http.post(urlContext+'/rest/taskAction/saveVat', 
+			 $http.post(urlContext+'/taskAction/saveVat', 
 		    	    {
 				 	isCreatedVat: $scope.isCreatedVat,
 				 	taskId: 	  $scope.taskId,
