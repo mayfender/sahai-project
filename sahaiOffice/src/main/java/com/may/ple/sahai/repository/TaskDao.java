@@ -48,7 +48,7 @@ public class TaskDao {
 			
 			BasicDBObject project = new BasicDBObject()
 			.append("$project", new BasicDBObject("year", new BasicDBObject("$year", "$"+dateColumn))
-			.append("month", new BasicDBObject("$month", "$"+dateColumn)));
+			.append("month", new BasicDBObject("$month", "$"+dateColumn)).append("isDeleted", "$isDeleted"));
 			
 			int year = Calendar.getInstance().get(Calendar.YEAR);
 			int month = Calendar.getInstance().get(Calendar.MONTH);

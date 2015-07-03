@@ -14,7 +14,7 @@ backOffice.controller('showTaskCtrl', function($rootScope, $scope, $http, $filte
 	
 	$scope.searchTask = function() {
 		$rootScope.startSpin();
-		$http.get(urlContext+'/rest/taskAction/showTasks?jobId='+$stateParams.jobId)
+		$http.get(urlContext+'/taskAction/showTasks?jobId='+$stateParams.jobId)
 		.success(function(response) {
     		if(response.status != 0) {
 				alert("Have some Error");
@@ -40,7 +40,7 @@ backOffice.controller('showTaskCtrl', function($rootScope, $scope, $http, $filte
 	
 	$scope.copyTask = function(id) {
 		$rootScope.startSpin();
-		$http.get(urlContext+'/rest/taskAction/copyTask?taskId='+id+'&userName='+userName)
+		$http.get(urlContext+'/taskAction/copyTask?taskId='+id+'&userName='+userName)
 		.success(function(response) {
     		if(response.status != 0) {
 				alert("Have some Error");
@@ -56,7 +56,7 @@ backOffice.controller('showTaskCtrl', function($rootScope, $scope, $http, $filte
 		if(r != true) return;
 		
 		$rootScope.startSpin();
-		$http.get(urlContext+'/rest/taskAction/deleteTask?taskId='+id+'&userName='+userName)
+		$http.get(urlContext+'/taskAction/deleteTask?taskId='+id+'&userName='+userName)
 		.success(function(response) {
     		if(response.status != 0) {
     			alert('Have some Error!!');

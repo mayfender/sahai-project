@@ -9,10 +9,10 @@ backOffice.controller('addJobCtrl', function($rootScope, $scope, $filter, $http,
 		$scope.formData2.comments = editObj.data.comments;
 		$scope.formData2.jobName = editObj.data.jobName;			
 		$scope.saveBtnMsg = 'แก้ใข';
-		url = urlContext+'/rest/jobAction/updateJob';
+		url = urlContext+'/jobAction/updateJob';
 		id = editObj.data.id;
 	}else{
-		url = urlContext+'/rest/jobAction/saveJob';
+		url = urlContext+'/jobAction/saveJob';
 		$scope.saveBtnMsg = 'บันทึก';			
 	}
 	

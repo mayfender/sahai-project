@@ -10,7 +10,7 @@ backOffice.controller('searchJobCtrl', function($rootScope, $scope, $http, $filt
 	
     $scope.search = function(){
     	$rootScope.startSpin();
-    	$http.post(urlContext+'/rest/jobAction/searchJob', 
+    	$http.post(urlContext+'/jobAction/searchJob', 
     	    {
     		companyName       : $scope.formData.companyName,
     		jobName           : $scope.formData.jobName,
@@ -38,7 +38,7 @@ backOffice.controller('searchJobCtrl', function($rootScope, $scope, $http, $filt
 		if(r != true) return;
 		
 		$rootScope.startSpin();
-		$http.get(urlContext+'/rest/jobAction/deleteJob?jobId='+id+'&userName='+userName)
+		$http.get(urlContext+'/jobAction/deleteJob?jobId='+id+'&userName='+userName)
 		.success(function(response) {
 	    		if(response.status != 0) {
 	    			alert('Have some Error!!');
