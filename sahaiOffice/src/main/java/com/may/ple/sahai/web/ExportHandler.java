@@ -34,45 +34,52 @@ public class ExportHandler {
 	@GET
 	@Path("/getPdfFile")
 	@Produces("application/pdf")
-	public Response getPdfFile(@QueryParam("itemId") final String itemId, @QueryParam("isVat") final String isVat) {
+	public Response getPdfFile(@QueryParam("itemId") final String itemId, @QueryParam("isVat") final String isVat) throws Exception {
 		
-		StreamingOutput stream = new StreamingOutput() {
-			@Override
-			public void write(OutputStream os) throws IOException, WebApplicationException {
-				OutputStream out = null;
-				ByteArrayInputStream in = null;
-				
-				try {
-					log.debug("Start");
-					
-					if(itemId == null) throw new Exception("taskId is null");
-					
-					log.debug("isVat : " + isVat);
-					
-					byte[] data = exportService.pdfExport(itemId, isVat);
-					in = new ByteArrayInputStream(data);
-					out = new BufferedOutputStream(os);
-					int bytes;
-					
-					while ((bytes = in.read()) != -1) {
-						out.write(bytes);
-					}
-					
-					log.debug("End");
-				} catch (Exception e) {
-					log.error(e.toString());
-				} finally {
-					if(in != null) in.close();			
-					if(out != null) out.close();			
-				}	
-			}
-		};
+		try {
+			final byte[] data = exportService.pdfExport(itemId, isVat);
 		
-		String fileName = exportService.getDocNo() + ".pdf";	
-		ResponseBuilder response = Response.ok(stream);
-		response.header("Content-Disposition", "attachment; filename=" + fileName);
+			StreamingOutput stream = new StreamingOutput() {
+				@Override
+				public void write(OutputStream os) throws IOException, WebApplicationException {
+					OutputStream out = null;
+					ByteArrayInputStream in = null;
+					
+					try {
+						log.debug("Start");
+						
+						if(itemId == null) throw new Exception("taskId is null");
+						
+						log.debug("isVat : " + isVat);
+						
+						
+						in = new ByteArrayInputStream(data);
+						out = new BufferedOutputStream(os);
+						int bytes;
+						
+						while ((bytes = in.read()) != -1) {
+							out.write(bytes);
+						}
+						
+						log.debug("End");
+					} catch (Exception e) {
+						log.error(e.toString());
+					} finally {
+						if(in != null) in.close();			
+						if(out != null) out.close();			
+					}	
+				}
+			};
+			
+			String fileName = exportService.getDocNo() + ".pdf";	
+			ResponseBuilder response = Response.ok(stream);
+			response.header("Content-Disposition", "attachment; filename=" + fileName);
+			return response.build();
 		
-		return response.build();
+		} catch (Exception e) {
+			log.error(e.toString());
+			throw e;
+		}
 	}
 
 }
