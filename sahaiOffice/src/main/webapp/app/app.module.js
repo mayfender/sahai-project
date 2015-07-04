@@ -86,7 +86,6 @@ backOffice.config(function($stateProvider, $urlRouterProvider, usSpinnerConfigPr
 	})
 	
 	//----------: Task :--
-	
 	.state('junctJob.junctTask', {
 		url        : '/junctTask',
 		template   : '<ui-view />',
@@ -136,6 +135,35 @@ backOffice.config(function($stateProvider, $urlRouterProvider, usSpinnerConfigPr
 	    onEnter    : function(){
 			 document.body.scrollTop = document.documentElement.scrollTop = 0;
 		}
+	})
+	
+	//----------: Vat :--
+	.state('searchVat', {
+		url        : '/searchVat',
+		templateUrl: 'vat/searchVat.html',
+		controller : 'searchVatCtrl',
+		resolve    : {
+				searchObj : function($rootScope, $http, $stateParams, urlContext){
+					$rootScope.startSpin();
+					return $http.post(urlContext+'/jobAction/searchJob',
+							{
+							companyName       : null,
+				    		jobName           : null,
+					    	userName          : null,
+					    	dateTimeStart     : null,
+					    	dateTimeEnd       : null,
+					    	currentPage       : 1,
+					    	itemsPerPage      : 5
+							}
+					       ).then(function(resp){
+					    	   if(resp.data.status != 0) {
+					    		   console.log('Have error!');
+					    	   }
+					    	   $rootScope.stopSpin();
+					    	   return resp;
+					       });
+				}
+			}
 	});
 	
 	$urlRouterProvider.otherwise('/home');
