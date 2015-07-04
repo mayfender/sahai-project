@@ -50,7 +50,7 @@
 			<input ng-disabled="isDisable" type="text" class="form-control" placeholder="เบอร์โทรศัพท์ผู้ออกเอกสาร" ng-model="userTel">
 		</div>
 	</div>
-	<div class="form-group" ng-show="isPR">
+	<div class="form-group" ng-show="isPR || isQuote">
 		<label class="col-sm-5 control-label font-color-white-ext">เงื่อนใขการชำระเงิน</label>
 		<div class="col-sm-5">
 			<input ng-disabled="isDisable" type="text" class="form-control" placeholder="เงื่อนใขการชำระเงิน" ng-model="payCondition">
@@ -110,14 +110,14 @@
 					<td><input ng-disabled="isDisable" type="text" class="form-control" ng-model="x.itemName"></td>
 					<td><input ng-disabled="isDisable" type="text" class="form-control" ng-model="x.quantity" dir="rtl"></td>
 					<td><input ng-disabled="isDisable" type="text" class="form-control" ng-model="x.unit"></td>
-					<td><input ng-disabled="isDisable || isQuote" type="text" class="form-control" ng-model="x.unitPrice" dir="rtl" ng-keypress="keyEnter($event)"></td>
+					<td><input ng-disabled="isDisable || isQuoteReq" type="text" class="form-control" ng-model="x.unitPrice" dir="rtl" ng-keypress="keyEnter($event)"></td>
 					<td style="vertical-align: middle;">{{ (x.amount = x.quantity * x.unitPrice) | number : 2 }}</td>
 					<td style="vertical-align: middle;">
 						<img  ng-show="!isDisable && isShowDelete" title="ลบรายการ" src="../../assets/img/delete_icon.png" ng-click="deleteTaskItem($index)" />
 					</td>
 				</tr>
 			</tbody>
-			<tfoot ng-show="!isQuote" class="font-color-white-bold-ext" style="background-color:#DA6307; color:white;	font-weight: bold;">
+			<tfoot ng-show="!isQuoteReq" class="font-color-white-bold-ext" style="background-color:#DA6307; color:white;	font-weight: bold;">
 				<tr>
 					<td rowspan="5" colspan="3" style="vertical-align: middle; text-align: center;">
 						<div ng-show="docType == 2 && isDisable">

@@ -52,10 +52,11 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 			$scope.isPR = true;	
 		}else if($scope.docType == 2) {
 			$scope.isPR = false;	
-			$scope.isQuote = false;										
+			$scope.isQuoteReq = false;										
+			$scope.isQuote = true;										
 		}else if($scope.docType == 3) {
 			$scope.isPR = false;	
-			$scope.isQuote = true;			
+			$scope.isQuoteReq = true;			
 		}
 		
 		if(taskObj.data.items.length > 1) {
@@ -139,14 +140,17 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 		if($scope.docType == 1) {
 			$scope.isPR = true;
 			$scope.isQuote = false;
+			$scope.isQuoteReq = false;
 			$scope.companyName = null;
 		}else if($scope.docType == 2) {
 			$scope.companyName = $stateParams.companyName;						
-			$scope.isQuote = false;
+			$scope.isQuoteReq = false;
+			$scope.isQuote = true;
 			$scope.isPR = false;
 		}else if($scope.docType == 3) {
 			$scope.isPR = false;
-			$scope.isQuote = true;
+			$scope.isQuote = false;
+			$scope.isQuoteReq = true;
 			$scope.companyName = null;
 		}
 	};
