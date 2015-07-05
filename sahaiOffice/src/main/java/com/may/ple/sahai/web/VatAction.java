@@ -1,54 +1,56 @@
 package com.may.ple.sahai.web;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.may.ple.sahai.domain.SearchVatReq;
 import com.may.ple.sahai.domain.SearchVatResp;
 import com.may.ple.sahai.domain.Vat;
+import com.may.ple.sahai.repository.VatDao;
+import com.may.ple.sahai.service.VatService;
+import com.mongodb.BasicDBObject;
 
 @Component
 @Path("vatAction")
 public class VatAction extends AbstractAction {
 	private static final Logger log = Logger.getLogger(VatAction.class.getName());
+	private VatDao vatDao;
+	private VatService vatService;
+	
+	@Autowired
+	public VatAction(VatDao vatDao, VatService vatService) {
+		this.vatDao = vatDao;
+		this.vatService = vatService;
+	}
 	
 	@POST
     @Path("/searchVat")
 	public SearchVatResp searchVat(SearchVatReq req) {
-		SearchVatResp resp = null;
+		SearchVatResp resp = new SearchVatResp();
 		
 		try {
 			log.debug("Start");
 			
 			// 1.
 			validateReq(req);
-			
 			log.debug("req : " + req.toString());
 			
 			// 2.
-			Vat vat = new Vat();
-			vat.setVatAddress("59/8 ม.1 ต.ทุ่งไทรทอง");
-			vat.setVatDocNo("SH-12-45");
-			vat.setVatPayCondition("เงินสด");
-			vat.setVatPayDate("19/04/2528");
-			vat.setVatDueDate("21/09/2528");
-			vat.setCompanyName("Hitech Nakhon");
+			BasicDBObject dbObject = vatService.prepareSearchJob(req);
+			Map<String, Object> searchVat = vatDao.searchVat(dbObject, req.getCurrentPage(), req.getItemsPerPage());
+			resp.setVatLst((List<Vat>)searchVat.get("vatLst"));
+			resp.setTotalItems((Long)searchVat.get("totalItems"));
 			
-			List<Vat> list = new ArrayList<Vat>();
-			list.add(vat);
-			
-			resp = new SearchVatResp();
-			resp.setVatLst(list);
-			
+			log.debug("resp : " + resp);
 		} catch (Exception e) {
 			log.error(e.toString());
-			resp = new SearchVatResp();
 			resp.setStatus("1");
 		}
 		

@@ -24,14 +24,13 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
 
 @Repository
 public class TaskDao {
 	private static final Logger log = Logger.getLogger(TaskDao.class.getName());
 	private static final String dbName = "sahai-back-office";
 	private static final String collection = "task-db";
-	private final MongoDbFactory mongo;
+	private MongoDbFactory mongo;
 	
 	@Autowired
 	public TaskDao(MongoDbFactory mongo) {
@@ -39,8 +38,6 @@ public class TaskDao {
 	}
 		
 	public int countByCurrentDate(String dateColumn) throws Exception {
-		MongoClient mongoClient = null;
-
 		try {
 
 			DB db = mongo.getDb(dbName);
@@ -62,15 +59,10 @@ public class TaskDao {
 		} catch (Exception e) {
 			log.error(e.toString());
 			throw e;
-		} finally {
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	
 	public void saveTask(BasicDBObject dbObject) {
-		MongoClient mongoClient = null;
-
 		try {
 
 			DB db = mongo.getDb(dbName);
@@ -80,14 +72,10 @@ public class TaskDao {
 		} catch (Exception e) {
 			log.error(e.toString());
 			throw e;
-		} finally {
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	
 	public List<TaskInfoResp> showTasks(String jobId) {
-		MongoClient mongoClient = null;
 		List<TaskInfoResp> result = null;
 		DBCursor cursor = null;
 		
@@ -136,13 +124,10 @@ public class TaskDao {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	
 	public BuySaleTaskReq findTask(String taskId) {
-		MongoClient mongoClient = null;
 		DBCursor cursor = null;
 		BuySaleTaskReq result = null;
 		
@@ -255,14 +240,10 @@ public class TaskDao {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	
 	public void update(BasicDBObject dbObj, String id) {
-		MongoClient mongoClient = null;
-
 		try {
 
 			DB db = mongo.getDb(dbName);
@@ -274,15 +255,10 @@ public class TaskDao {
 		} catch (Exception e) {
 			log.error(e.toString());
 			throw e;
-		} finally {
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	
 	public void delete(String id, String userName) {
-		MongoClient mongoClient = null;
-
 		try {
 
 			DB db = mongo.getDb(dbName);
@@ -299,15 +275,11 @@ public class TaskDao {
 		} catch (Exception e) {
 			log.error(e.toString());
 			throw e;
-		} finally {
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	
 	public VatSaveReq findVat(String taskId) {
 		DBCursor cursor = null;
-		MongoClient mongoClient = null;
 		VatSaveReq resp = null;
 		
 		try {
@@ -341,8 +313,6 @@ public class TaskDao {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	

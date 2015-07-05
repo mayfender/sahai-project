@@ -4,10 +4,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class Vat {
+	private String id;
 	private String vatDocNo;
 	private String vatAddress;
 	private String vatPayCondition;
-	private String vatPayDate;
+	private String vatCreatedDateTime;
 	private String vatDueDate;
 	private String vatPayNo;
 	private String companyName;
@@ -41,14 +42,6 @@ public class Vat {
 		this.vatPayCondition = vatPayCondition;
 	}
 
-	public String getVatPayDate() {
-		return vatPayDate;
-	}
-
-	public void setVatPayDate(String vatPayDate) {
-		this.vatPayDate = vatPayDate;
-	}
-
 	public String getVatPayNo() {
 		return vatPayNo;
 	}
@@ -71,6 +64,22 @@ public class Vat {
 
 	public void setVatDueDate(String vatDueDate) {
 		this.vatDueDate = vatDueDate;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getVatCreatedDateTime() {
+		return vatCreatedDateTime;
+	}
+
+	public void setVatCreatedDateTime(String vatCreatedDateTime) {
+		this.vatCreatedDateTime = vatCreatedDateTime;
 	}
 	
 }

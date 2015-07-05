@@ -7,38 +7,24 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import com.may.ple.sahai.domain.BuySaleJobReq;
+import com.may.ple.sahai.domain.SearchVatReq;
 import com.mongodb.BasicDBObject;
 
 @Service
-public class JobService {
+public class VatService {
 	
-	public BasicDBObject prepareSaveJob(BuySaleJobReq req) {
-		
-		BasicDBObject dbObj = new BasicDBObject("companyName", req.getCompanyName())
-		.append("jobName", req.getJobName())
-		.append("comments", req.getComments())
-		.append("createdDateTime", new Date())
-		.append("updatedDateTime", new Date())
-		.append("createdBy", req.getUserName());
-		
-		return dbObj;
-	}
-	
-	public BasicDBObject prepareSearchJob(BuySaleJobReq req) throws Exception {
+	public BasicDBObject prepareSearchJob(SearchVatReq req) throws Exception {
 		try {
 			BasicDBObject dbObj = new BasicDBObject();
 			
-			dbObj.append("isDeleted", new BasicDBObject("$ne", true));
+			dbObj.append("isDeleted", new BasicDBObject("$ne", true)).
+			append("vatDocNo", new BasicDBObject("$exists", true).append("$ne", null));
 			
 			if(!StringUtils.isBlank(req.getCompanyName())) {
 				dbObj.append("companyName", Pattern.compile(req.getCompanyName(), Pattern.CASE_INSENSITIVE));
 			}
-			if(!StringUtils.isBlank(req.getJobName())) {
-				dbObj.append("jobName", Pattern.compile(req.getJobName(), Pattern.CASE_INSENSITIVE));
-			}
-			if(!StringUtils.isBlank(req.getUserName())) {
-				dbObj.append("createdBy", Pattern.compile(req.getUserName()));
+			if(!StringUtils.isBlank(req.getDocNo())) {
+				dbObj.append("vatDocNo", Pattern.compile(req.getDocNo(), Pattern.CASE_INSENSITIVE));
 			}
 			
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:SSS");
@@ -66,17 +52,6 @@ public class JobService {
 		} catch (Exception e) {
 			throw e;
 		}
-	}
-	
-	public BasicDBObject prepareUpdateJob(BuySaleJobReq req) {
-		
-		BasicDBObject dbObj = new BasicDBObject("companyName", req.getCompanyName())
-		.append("jobName", req.getJobName())
-		.append("comments", req.getComments())
-		.append("updatedDateTime", new Date())
-		.append("updatedBy", req.getUserName());
-		
-		return dbObj;
 	}
 
 }

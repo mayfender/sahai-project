@@ -21,7 +21,6 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
 
 @Repository
 public class JobDao {
@@ -36,26 +35,17 @@ public class JobDao {
 	}
 
 	public void saveJob(BasicDBObject dbObject) {
-		MongoClient mongoClient = null;
-		
-		try {
-			
+		try {	
 			DB db = mongo.getDb(dbName);
 			DBCollection coll = db.getCollection(collection);
 			coll.insert(dbObject);
-			
 		} catch (Exception e) {
 			log.error(e.toString());
 			throw e;
-		} finally {
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	
 	public void save(BasicDBObject dbObject) {
-		MongoClient mongoClient = null;
-
 		try {
 
 			DB db = mongo.getDb(dbName);
@@ -65,15 +55,10 @@ public class JobDao {
 		} catch (Exception e) {
 			log.error(e.toString());
 			throw e;
-		} finally {
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	
 	public void update(BasicDBObject dbObj, String itemId) {
-		MongoClient mongoClient = null;
-
 		try {
 
 			DB db = mongo.getDb(dbName);
@@ -85,15 +70,11 @@ public class JobDao {
 		} catch (Exception e) {
 			log.error(e.toString());
 			throw e;
-		} finally {
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 
 	public Map<String, Object> searchJob(BasicDBObject dbObj, Integer currentPage, Integer itemsPerPage) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		MongoClient mongoClient = null;
 		DBCursor cursor = null;
 		
 		try {
@@ -143,8 +124,6 @@ public class JobDao {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	
@@ -210,7 +189,6 @@ public class JobDao {
 	}*/
 	
 	public BuySaleJobReq viewJob(String jobId) {
-		MongoClient mongoClient = null;
 		BuySaleJobReq result = null;
 		DBCursor cursor = null;
 		
@@ -239,15 +217,12 @@ public class JobDao {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	
 	
 	
 	public BuySaleInfoReq view(String itemId) {
-		MongoClient mongoClient = null;
 		BuySaleInfoReq result = null;
 		DBCursor cursor = null;
 		
@@ -291,14 +266,10 @@ public class JobDao {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	
 	public void delete(String itemId, String userName) {
-		MongoClient mongoClient = null;
-
 		try {
 
 			DB db = mongo.getDb(dbName);
@@ -315,9 +286,6 @@ public class JobDao {
 		} catch (Exception e) {
 			log.error(e.toString());
 			throw e;
-		} finally {
-			if (mongoClient != null)
-				mongoClient.close();
 		}
 	}
 	

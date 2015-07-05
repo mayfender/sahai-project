@@ -13,7 +13,7 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
     	$http.post(urlContext+'/vatAction/searchVat', 
     	    {
     		companyName       : $scope.formData.companyName,
-    		jobName           : $scope.formData.docNo,
+    		docNo             : $scope.formData.docNo,
 	    	dateTimeStart     : $filter('date')($scope.formData.dateTimeStart, 'dd-MM-yyyy'),
 	    	dateTimeEnd       : $filter('date')($scope.formData.dateTimeEnd, 'dd-MM-yyyy'),
 	    	currentPage       : $scope.formData.currentPage,
@@ -31,35 +31,9 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 	    });  
 	};
 	
-	$scope.deleteJob = function(id) {
-		
-		var r = confirm("ยืนยันการลบ!");
-		if(r != true) return;
-		
-		$rootScope.startSpin();
-		$http.get(urlContext+'/jobAction/deleteJob?jobId='+id+'&userName='+userName)
-		.success(function(response) {
-	    		if(response.status != 0) {
-	    			alert('Have some Error!!');
-	    			return;
-	    		}
-	    		
-	    		$scope.search();
-		    });  
-	};
-	
-	$scope.addJob = function(id) {
-		$state.go('junctJob.addJob', {jobId : id});
-	};
-	
-	$scope.showTask = function(id, compName) {
-		$state.go('junctJob.junctTask.showTask', {jobId : id, companyName : compName});
-	};
-	
 	$scope.clear = function() {
-		$scope.formData.jobName = null;
 		$scope.formData.companyName = null;
-		$scope.formData.userName = null;
+		$scope.formData.docNo = null;
 		$scope.formData.dateTimeStart = null;
 		$scope.formData.dateTimeEnd = null;
 	};
