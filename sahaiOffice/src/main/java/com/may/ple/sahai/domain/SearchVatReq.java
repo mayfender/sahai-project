@@ -4,9 +4,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class SearchVatReq {
-	private Integer currentPage;
+	private String companyName;
+	private String docNo;
 	private String dateTimeStart;
 	private String dateTimeEnd;
+	private Integer currentPage;
 	private Integer itemsPerPage;
 	
 	@Override
@@ -37,6 +39,22 @@ public class SearchVatReq {
 	}
 	public void setItemsPerPage(Integer itemsPerPage) {
 		this.itemsPerPage = itemsPerPage;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getDocNo() {
+		return docNo;
+	}
+
+	public void setDocNo(String docNo) {
+		this.docNo = docNo;
 	}
 	
 }

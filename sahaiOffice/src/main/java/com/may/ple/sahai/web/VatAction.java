@@ -31,6 +31,8 @@ public class VatAction extends AbstractAction {
 			
 			log.debug("req : " + req.toString());
 			
+			List<Vat> list = new ArrayList<Vat>();
+			
 			// 2.
 			Vat vat = new Vat();
 			vat.setVatAddress("59/8 ม.1 ต.ทุ่งไทรทอง");
@@ -39,9 +41,16 @@ public class VatAction extends AbstractAction {
 			vat.setVatPayDate("19/04/2528");
 			vat.setVatDueDate("21/09/2528");
 			vat.setCompanyName("Hitech Nakhon");
-			
-			List<Vat> list = new ArrayList<Vat>();
 			list.add(vat);
+			
+			vat = new Vat();
+			vat.setVatAddress("59/8 ม.1 ต.ทุ่งไทรทอง 2");
+			vat.setVatDocNo("SH-12-46");
+			vat.setVatPayCondition("เงินสด");
+			vat.setVatPayDate("23/02/2529");
+			vat.setVatDueDate("08/11/2529");
+			vat.setCompanyName("Hitech Nakhon");
+			list.add(vat);			
 			
 			resp = new SearchVatResp();
 			resp.setVatLst(list);

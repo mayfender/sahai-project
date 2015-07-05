@@ -1,16 +1,16 @@
 
 <form class="form-horizontal">
 	<div class="form-group">
-		<label class="col-sm-5 control-label font-color-white-ext">เลขที่เอกสาร</label>
-		<div class="col-sm-5">
-			<input type="text" class="form-control" ng-model="formData.docNo">
-		</div>
-	</div>
-	<div class="form-group">
 		<label class="col-sm-5 control-label font-color-white-ext">ชื่อบริษัทลูกค้า</label>
 		<div class="col-sm-5">
 			<input type="text" class="form-control"
 				ng-model="formData.companyName">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-5 control-label font-color-white-ext">เลขที่เอกสาร</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" ng-model="formData.docNo">
 		</div>
 	</div>
 
@@ -68,10 +68,10 @@
 			<col style="width: 6%">
 			<col style="width: 10%">
 			<col style="width: 10%">
-			<col style="width: 39%">
+			<col style="width: 44%">
 			<col style="width: 15%">
 			<col style="width: 10%">
-			<col style="width: 10%">
+			<col style="width: 5%">
 			<thead class="font-color-white-ext"
 				style="background-color: #DA6307;">
 				<tr align="center">
@@ -99,10 +99,8 @@
 					<td>{{ x.companyName }}</td>
 					<td>{{ x.vatPayCondition }}</td>
 					<td>{{ x.vatDueDate }}</td>
-					<td>
-						<!-- <img style="cursor: pointer;" title="ลบจ๊อบ" src="../../assets/img/delete_icon.png" ng-click="deleteJob(x.id)" width="20" /> 
-						<img style="cursor: pointer;" title="แก้ใขจ๊อบ" src="../../assets/img/setting_icon.png" ng-click="addJob(x.id)" width="20" /> 
-						<img style="cursor: pointer;" title="เพิ่มจ๊อบ" src="../../assets/img/forward.png" ng-click="showTask(x.id, x.companyName)" width="20" /> -->
+					<td style="text-align: center;">
+						<img style="cursor: pointer;" title="download" src="../../assets/img/download_icon.png" ng-click="download(x.id)" width="20" /> 
 					</td>
 				</tr>
 			</tbody>
