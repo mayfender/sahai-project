@@ -145,13 +145,8 @@ backOffice.config(function($stateProvider, $urlRouterProvider, usSpinnerConfigPr
 		resolve    : {
 				searchObj : function($rootScope, $http, $stateParams, urlContext){
 					$rootScope.startSpin();
-					return $http.post(urlContext+'/jobAction/searchJob',
+					return $http.post(urlContext+'/vatAction/searchVat',
 							{
-							companyName       : null,
-				    		jobName           : null,
-					    	userName          : null,
-					    	dateTimeStart     : null,
-					    	dateTimeEnd       : null,
 					    	currentPage       : 1,
 					    	itemsPerPage      : 5
 							}

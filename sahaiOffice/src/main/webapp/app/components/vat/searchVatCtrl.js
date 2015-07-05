@@ -1,6 +1,6 @@
 
 backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filter, $log, $state, searchObj, urlContext, usSpinnerService) {
-    $scope.items = searchObj.data.searchLst;
+    $scope.items = searchObj.data.vatLst;
 	$scope.totalItems = searchObj.data.totalItems;
 	$scope.itemsPerPage = 5;
 	$scope.maxSize = 5;
@@ -10,11 +10,10 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 	
     $scope.search = function(){
     	$rootScope.startSpin();
-    	$http.post(urlContext+'/jobAction/searchJob', 
+    	$http.post(urlContext+'/vatAction/searchVat', 
     	    {
     		companyName       : $scope.formData.companyName,
-    		jobName           : $scope.formData.jobName,
-	    	userName          : $scope.formData.userName,
+    		jobName           : $scope.formData.docNo,
 	    	dateTimeStart     : $filter('date')($scope.formData.dateTimeStart, 'dd-MM-yyyy'),
 	    	dateTimeEnd       : $filter('date')($scope.formData.dateTimeEnd, 'dd-MM-yyyy'),
 	    	currentPage       : $scope.formData.currentPage,
@@ -26,7 +25,7 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 				return;	
 	    	}
 	    	$log.log(response);
-	    	$scope.items      = response.searchLst;
+	    	$scope.items      = response.vatLst;
 	    	$scope.totalItems = response.totalItems;
 	    	$rootScope.stopSpin();
 	    });  
