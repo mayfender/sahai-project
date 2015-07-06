@@ -66,9 +66,10 @@
 			<col style="width: 6%">
 			<col style="width: 10%">
 			<col style="width: 10%">
-			<col style="width: 44%">
-			<col style="width: 15%">
+			<col style="width: 30%">
+			<col style="width: 14%">
 			<col style="width: 10%">
+			<col style="width: 15%">
 			<col style="width: 5%">
 			<thead class="font-color-white-ext"
 				style="background-color: #DA6307;">
@@ -85,6 +86,9 @@
 					</td>
 					<td>กำหนดชำระเงิน<br />Due Date
 					</td>
+					<td>
+						จำนวนเงินรวมภาษี<br />price (Inc vat)
+					</td>
 					<td style="vertical-align: middle;">
 						<img title="เพิ่มทาสก์" src="../../assets/img/add_icon.png" ng-click="addTask()" width="30" style="cursor: pointer;" />
 					</td>
@@ -99,6 +103,7 @@
 					<td>{{ x.companyName }}</td>
 					<td>{{ x.vatPayCondition }}</td>
 					<td>{{ x.vatDueDate }}</td>
+					<td>{{ x.totalPrice }}</td>
 					<td>
 						<img style="cursor: pointer;" title="download" src="../../assets/img/download_icon.png" ng-click="download(x.id)" width="20" /> 
 					</td>

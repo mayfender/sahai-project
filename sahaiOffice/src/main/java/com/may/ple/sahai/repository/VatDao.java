@@ -46,6 +46,7 @@ public class VatDao {
 			fields.put("vatPayCondition", 1);
 			fields.put("vatPayDate", 1);
 			fields.put("vatUpdatedDateTime", 1);
+			fields.put("totalPrice", 1);
 			
 			// 1 = asc, -1 = desc
 			BasicDBObject orderBy = new BasicDBObject();
@@ -69,6 +70,7 @@ public class VatDao {
 				vat.setVatPayCondition(this.<String>getValueByType(obj.get("vatPayCondition")));
 				vat.setVatDueDate(this.<String>getValueByType(obj.get("vatPayDate")));
 				vat.setVatCreatedDateTime(String.format("%1$td/%1$tm/%1$tY", this.<Date>getValueByType(obj.get("vatUpdatedDateTime"))));
+				vat.setTotalPrice(String.format("%,.2f", this.<Double>getValueByType(obj.get("totalPrice"))));
 				
 				searchLst.add(vat);
 			}

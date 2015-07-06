@@ -12,7 +12,16 @@ public class Vat {
 	private String vatDueDate;
 	private String vatPayNo;
 	private String companyName;
+	private String totalPrice;
 	
+	public String getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(String totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE);
