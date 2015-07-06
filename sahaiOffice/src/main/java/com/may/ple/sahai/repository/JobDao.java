@@ -26,7 +26,7 @@ import com.mongodb.DBObject;
 public class JobDao {
 	private static final Logger log = Logger.getLogger(JobDao.class.getName());
 	private static final String dbName = "sahai-back-office";
-	private static final String collection = "buy-sale";
+	private static final String collection = "buy_sale";
 	private final MongoDbFactory mongo;
 	
 	@Autowired
