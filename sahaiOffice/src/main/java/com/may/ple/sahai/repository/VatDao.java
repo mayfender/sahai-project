@@ -68,7 +68,7 @@ public class VatDao {
 				vat.setVatDocNo(this.<String>getValueByType(obj.get("vatDocNo")));
 				vat.setVatPayCondition(this.<String>getValueByType(obj.get("vatPayCondition")));
 				vat.setVatDueDate(this.<String>getValueByType(obj.get("vatPayDate")));
-				vat.setVatCreatedDateTime(String.format("%1$td-%1$tm-%1$tY %1$tT", this.<Date>getValueByType(obj.get("vatUpdatedDateTime"))));
+				vat.setVatCreatedDateTime(String.format("%1$td/%1$tm/%1$tY", this.<Date>getValueByType(obj.get("vatUpdatedDateTime"))));
 				
 				searchLst.add(vat);
 			}

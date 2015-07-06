@@ -109,7 +109,7 @@ public class JobDao {
 				searchInfo.setCompanyName(this.<String>getValueByType(obj.get("companyName")));
 				searchInfo.setJobName(this.<String>getValueByType(obj.get("jobName")));
 				searchInfo.setUserName(this.<String>getValueByType(obj.get("createdBy")));
-				searchInfo.setCreatedDateTime(String.format("%1$td-%1$tm-%1$tY %1$tT", this.<Date>getValueByType(obj.get("createdDateTime"))));
+				searchInfo.setCreatedDateTime(String.format("%1$td/%1$tm/%1$tY %1$tT", this.<Date>getValueByType(obj.get("createdDateTime"))));
 				
 				searchLst.add(searchInfo);
 			}
