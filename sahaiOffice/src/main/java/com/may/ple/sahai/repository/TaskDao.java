@@ -29,7 +29,7 @@ import com.mongodb.DBObject;
 public class TaskDao {
 	private static final Logger log = Logger.getLogger(TaskDao.class.getName());
 	private static final String dbName = "sahai-back-office";
-	private static final String collection = "task_db";
+	private static final String collection = "task";
 	private MongoDbFactory mongo;
 	
 	@Autowired

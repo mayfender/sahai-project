@@ -90,7 +90,7 @@
 						จำนวนเงินรวมภาษี<br />price (Inc vat)
 					</td>
 					<td style="vertical-align: middle;">
-						<img title="เพิ่มทาสก์" src="../../assets/img/add_icon.png" ng-click="addTask()" width="30" style="cursor: pointer;" />
+						<img title="เพิ่มภาษีซื้อ" src="../../assets/img/add_icon.png" ng-click="addVatIn()" width="30" style="cursor: pointer;" />
 					</td>
 				</tr>
 			</thead>
@@ -105,7 +105,8 @@
 					<td>{{ x.vatDueDate }}</td>
 					<td>{{ x.totalPrice }}</td>
 					<td>
-						<img style="cursor: pointer;" title="download" src="../../assets/img/download_icon.png" ng-click="download(x.id)" width="20" /> 
+						<!-- <img style="cursor: pointer;" title="download" src="../../assets/img/income_icon.png" ng-click="download(x.id)" width="20" /> --> 
+						<img title="ซื้อ" src="../../assets/img/expenses_icon.png" width="20" /> 
 					</td>
 				</tr>
 			</tbody>

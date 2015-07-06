@@ -37,6 +37,10 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 		$scope.formData.dateTimeStart = null;
 		$scope.formData.dateTimeEnd = null;
 	};
+	
+	$scope.addVatIn = function(id) {
+		$state.go('junctVat.addVatIn', {vatInId : id});
+	};
 
 
 	/*--------------------------------------*/

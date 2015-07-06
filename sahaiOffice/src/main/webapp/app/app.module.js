@@ -138,9 +138,9 @@ backOffice.config(function($stateProvider, $urlRouterProvider, usSpinnerConfigPr
 	})
 	
 	//----------: Vat :--
-	.state('searchVat', {
-		url        : '/searchVat',
-		templateUrl: 'vat/searchVat.html',
+	.state('junctVat', {
+		url        : '/junctVat',
+		template   : '<ui-view />',
 		controller : 'searchVatCtrl',
 		resolve    : {
 				searchObj : function($rootScope, $http, $stateParams, urlContext){
@@ -159,6 +159,37 @@ backOffice.config(function($stateProvider, $urlRouterProvider, usSpinnerConfigPr
 					       });
 				}
 			}
+	})
+	.state('junctVat.searchVat', {
+		url        : '/searchVat',
+		templateUrl: 'vat/searchVat.html',
+		onEnter    : function(){
+			 document.body.scrollTop = document.documentElement.scrollTop = 0;
+		}
+	})
+	.state('junctVat.addVatIn', {
+		url        : '/addVatIn',
+		templateUrl: 'vat/addVatIn.html',
+		params     : {vatInId : null},
+		controller : 'addVatInCtrl',
+		resolve    : {
+			editObj : function($rootScope, $http, $stateParams, urlContext){
+				if($stateParams.vatInId) {
+					/*$rootScope.startSpin();
+					return $http.get(urlContext+'/taskAction/findTask?taskId='+$stateParams.taskId).
+					then(function(resp){
+				    	   if(resp.data.status != 0) {
+				    		   console.log('Have error!');
+				    	   }
+				    	   $rootScope.stopSpin();
+				    	   return resp;
+				       });*/
+				}
+			}
+	    },
+		onEnter    : function(){
+			 document.body.scrollTop = document.documentElement.scrollTop = 0;
+		}
 	});
 	
 	$urlRouterProvider.otherwise('/home');

@@ -22,7 +22,8 @@ import com.mongodb.DBObject;
 public class VatDao {
 	private static final Logger log = Logger.getLogger(JobDao.class.getName());
 	private static final String dbName = "sahai-back-office";
-	private static final String collection = "task_db";
+	private static final String collection = "task";
+	private static final String collectionVatIn = "vatIn";
 	private MongoDbFactory mongo;
 
 	@Autowired
