@@ -186,29 +186,4 @@ public class TaskAction extends AbstractAction {
 		return resp;
 	}
 	
-	@POST
-    @Path("/saveVat")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public VatSaveReq saveVat(VatSaveReq req) {
-		VatSaveReq resp = null;
-		
-		try {
-			log.debug("Start");
-			log.debug(req);
-			
-			BasicDBObject dbObj = taskService.prepareVatSave(req);
-			
-			taskDao.update(dbObj, req.getTaskId());
-			resp = taskDao.findVat(req.getTaskId());
-		} catch (Exception e) {
-			log.error(e.toString());
-			resp = new VatSaveReq();
-			resp.setStatus("1");
-		}
-		
-		log.debug("End");
-		return resp;
-	}
-
 }

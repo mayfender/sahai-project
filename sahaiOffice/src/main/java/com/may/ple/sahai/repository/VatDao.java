@@ -22,14 +22,59 @@ import com.mongodb.DBObject;
 public class VatDao {
 	private static final Logger log = Logger.getLogger(JobDao.class.getName());
 	private static final String dbName = "sahai-back-office";
-	private static final String collection = "task";
-	private static final String collectionVatIn = "vatIn";
+	private static final String collectionVatInOut = "vatInOut";
 	private MongoDbFactory mongo;
 
 	@Autowired
 	public VatDao(MongoDbFactory mongo) {
 		this.mongo = mongo;
 	}
+	
+	/*public static void main(String[] args) {
+		testMapReduce();
+	}*/
+	
+	/*public static void testMapReduce() {
+		MongoClient dbClient = null;
+		
+		try {
+			String map = "function() { "
+					+ "    emit(this._id, {companyName: this.companyName, vatDocNo: this.vatDocNo, vatPayCondition: this.vatPayCondition,"
+					+ "    vatUpdatedDateTime: this.vatUpdatedDateTime, totalPrice: this.totalPrice,"
+					+ "    vatPayDate: this.vatPayDate, others: this.others}); }";
+			
+			dbClient = new MongoClient( "localhost" , 27017 );
+			DB db = dbClient.getDB(dbName);
+			DBCollection coll = db.getCollection(collection);
+			DBCollection vatIn = db.getCollection(collectionVatIn);
+			
+			SearchVatReq req = new SearchVatReq();
+			
+			BasicDBObject query = new VatService().prepareSearchVat(req);
+			
+			MapReduceCommand reduceCommand = new MapReduceCommand(coll, map, "", "vatInOut", MapReduceCommand.OutputType.REDUCE, query);
+			BasicDBObject orderBy = new BasicDBObject();
+			orderBy.put("value.companyName", 1);
+			reduceCommand.setSort(orderBy);
+			
+			coll.mapReduce(reduceCommand);
+			
+			reduceCommand = new MapReduceCommand(vatIn, map, "", "vatInOut", MapReduceCommand.OutputType.REDUCE, query);
+			
+			MapReduceOutput mapReduce = coll.mapReduce(reduceCommand);
+			
+			
+			for (DBObject obj : mapReduce.results()) {
+				System.out.println(obj.toString());
+			}
+			
+			mapReduce.drop();
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		} finally {
+			if(dbClient != null) dbClient.close();			
+		}
+	}*/
 
 	public Map<String, Object> searchVat(BasicDBObject dbObj, Integer currentPage, Integer itemsPerPage) {
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -38,7 +83,7 @@ public class VatDao {
 		try {
 
 			DB db = mongo.getDb(dbName);
-			DBCollection coll = db.getCollection(collection);
+			DBCollection coll = db.getCollection(collectionVatInOut);
 			
 			// 1 = show, 0 = not show
 			BasicDBObject fields = new BasicDBObject();
@@ -48,6 +93,7 @@ public class VatDao {
 			fields.put("vatPayDate", 1);
 			fields.put("vatUpdatedDateTime", 1);
 			fields.put("totalPrice", 1);
+			fields.put("vatType", 1);
 			
 			// 1 = asc, -1 = desc
 			BasicDBObject orderBy = new BasicDBObject();
@@ -72,6 +118,7 @@ public class VatDao {
 				vat.setVatDueDate(this.<String>getValueByType(obj.get("vatPayDate")));
 				vat.setVatCreatedDateTime(String.format("%1$td/%1$tm/%1$tY", this.<Date>getValueByType(obj.get("vatUpdatedDateTime"))));
 				vat.setTotalPrice(String.format("%,.2f", this.<Double>getValueByType(obj.get("totalPrice"))));
+				vat.setVatType(this.<String>getValueByType(obj.get("vatType")));
 				
 				searchLst.add(vat);
 			}
@@ -93,7 +140,7 @@ public class VatDao {
 		try {
 
 			DB db = mongo.getDb(dbName);
-			DBCollection coll = db.getCollection(collectionVatIn);
+			DBCollection coll = db.getCollection(collectionVatInOut);
 			coll.insert(dbObject);
 
 		} catch (Exception e) {

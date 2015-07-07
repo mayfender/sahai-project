@@ -10,12 +10,47 @@ public class Vat {
 	private String vatPayCondition;
 	private String vatCreatedDateTime;
 	private String vatDueDate;
-	private String vatPayNo;
+	private String vatPoNo;
 	private String companyName;
 	private String totalPrice;
 	private String others;
 	private String userName;
+	private String vatType;
+	private String taskId;
+	private Boolean isCreatedVat;
 	
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+
+	public String getVatPoNo() {
+		return vatPoNo;
+	}
+
+	public void setVatPoNo(String vatPoNo) {
+		this.vatPoNo = vatPoNo;
+	}
+
+	public boolean isCreatedVat() {
+		return isCreatedVat;
+	}
+
+	public void setCreatedVat(boolean isCreatedVat) {
+		this.isCreatedVat = isCreatedVat;
+	}
+
+	public String getVatType() {
+		return vatType;
+	}
+
+	public void setVatType(String vatType) {
+		this.vatType = vatType;
+	}
+
 	public String getTotalPrice() {
 		return totalPrice;
 	}
@@ -51,14 +86,6 @@ public class Vat {
 
 	public void setVatPayCondition(String vatPayCondition) {
 		this.vatPayCondition = vatPayCondition;
-	}
-
-	public String getVatPayNo() {
-		return vatPayNo;
-	}
-
-	public void setVatPayNo(String vatPayNo) {
-		this.vatPayNo = vatPayNo;
 	}
 
 	public String getCompanyName() {

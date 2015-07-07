@@ -186,7 +186,7 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 				$scope.data.payCondition = data.payCondition;
 				$scope.data.payDate = data.payDate;
 				$scope.data.poNo = data.poNo;
-				$scope.format = "dd-MM-yyyy";
+				$scope.format = "dd/MM/yyyy";
 				
 				$scope.ok = function () {
 				    $modalInstance.close($scope.data);
@@ -219,14 +219,16 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 		});		
 		
 		 modalInstance.result.then(function (result) {
-			 $http.post(urlContext+'/taskAction/saveVat', 
+			 console.log(urlContext+'/vatAction/saveVat');
+			 $http.post(urlContext+'/vatAction/saveVat', 
 		    	    {
-				 	isCreatedVat: $scope.isCreatedVat,
-				 	taskId: 	  $scope.taskId,
-		    		address:      result.address,
-			    	payCondition: result.payCondition,
-			    	payDate:      $filter('date')(result.payDate, 'dd/MM/yyyy'),
-			    	poNo: 		  result.poNo
+				 	isCreatedVat:     $scope.isCreatedVat,
+				 	taskId: 	      $scope.taskId,
+				 	vatAddress:       result.address,
+				 	vatPayCondition:  result.payCondition,
+				 	vatDueDate:       $filter('date')(result.payDate, 'dd/MM/yyyy'),
+				 	vatPoNo: 		  result.poNo,
+				 	vatType:          "2"
 			    	}
 		    ).success(function(response) {
 	    		if(response.status != 0) {

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.may.ple.sahai.domain.BuySaleTaskReq;
 import com.may.ple.sahai.domain.ItemInfo;
-import com.may.ple.sahai.domain.VatSaveReq;
 import com.may.ple.sahai.repository.TaskDao;
 import com.may.ple.sahai.utils.DocTypeConstantUtil;
 import com.mongodb.BasicDBList;
@@ -97,34 +96,6 @@ public class TaskService {
 		}
 		
 		return dbObj;
-	}
-	
-	public BasicDBObject prepareVatSave(VatSaveReq req) throws Exception {
-		log.debug("Start");
-		Date currentDate = new Date();
-		BasicDBObject dbObj = new BasicDBObject();
-		
-		try {
-			if(req.getIsCreatedVat()) {
-				int count = taskDao.countByCurrentDate("vatCreatedDateTime") + 1;
-				String docNo = "SH"+String.format("%1$ty%1$tm-" + String.format("%04d", count), new Date());	
-				
-				dbObj.append("vatDocNo", docNo);
-				dbObj.append("vatCreatedDateTime", currentDate);
-			}
-		} catch (Exception e) {
-			log.error(e.toString());
-			throw e;
-		}
-		
-		dbObj.append("vatAddress", req.getAddress());
-		dbObj.append("vatPayCondition", req.getPayCondition());
-		dbObj.append("vatPayDate", req.getPayDate());
-		dbObj.append("vatPoNo", req.getPoNo());
-		dbObj.append("vatUpdatedDateTime", currentDate);
-		
-		log.debug("End");
-		return new BasicDBObject("$set", dbObj);
 	}
 
 }

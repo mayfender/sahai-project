@@ -5,15 +5,23 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.may.ple.sahai.domain.SearchVatReq;
 import com.may.ple.sahai.domain.Vat;
+import com.may.ple.sahai.repository.TaskDao;
 import com.mongodb.BasicDBObject;
 
 @Service
 public class VatService {
-
+	private TaskDao taskDao;
+	
+	@Autowired
+	public VatService(TaskDao taskDao) {
+		this.taskDao = taskDao;
+	}
+	
 	public BasicDBObject prepareSearchVat(SearchVatReq req) throws Exception {
 		try {
 			BasicDBObject dbObj = new BasicDBObject();
@@ -55,16 +63,16 @@ public class VatService {
 		}
 	}
 
-	public BasicDBObject prepareSaveVat(Vat req, int module) throws Exception {
+	public BasicDBObject prepareVatInSave(Vat req, int module) throws Exception {
 		BasicDBObject dbObj = new BasicDBObject("companyName", req.getCompanyName())
-				.append("docNo", req.getVatDocNo())
+				.append("vatDocNo", req.getVatDocNo())
 				.append("vatCreatedDate", req.getVatCreatedDateTime())
-				.append("dueDate", req.getVatDueDate())
-				.append("payCondition", req.getVatPayCondition())
-				.append("totalPrice", req.getTotalPrice())
-				.append("updatedDateTime", new Date())
+				.append("vatPayDate", req.getVatDueDate())
+				.append("vatPayCondition", req.getVatPayCondition())
+				.append("totalPrice", Double.parseDouble(req.getTotalPrice()))
+				.append("vatUpdatedDateTime", new Date())
+				.append("vatType", "1") // 1:vatIn, other:vatOut
 				.append("others", req.getOthers());
-		
 		
 		if(module == 1) {
 			dbObj.append("createdDateTime", new Date());
@@ -74,6 +82,33 @@ public class VatService {
 		}
 		
 		return dbObj;
+	}
+	
+	public BasicDBObject prepareVatOutSave(Vat req) throws Exception {
+		Date currentDate = new Date();
+		BasicDBObject dbObj = new BasicDBObject();
+		
+		try {
+			if(req.isCreatedVat()) {
+				int count = taskDao.countByCurrentDate("vatCreatedDateTime") + 1;
+				String docNo = "SH"+String.format("%1$ty%1$tm-" + String.format("%04d", count), new Date());	
+				
+				dbObj.append("vatDocNo", docNo);
+				dbObj.append("vatCreatedDateTime", currentDate);
+				dbObj.append("vatType", "2"); // 1:vatIn, other:vatOut
+				dbObj.append("taskId", req.getTaskId()); // 1:vatIn, other:vatOut
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		
+		dbObj.append("companyName", req.getCompanyName());
+		dbObj.append("vatPayDate", req.getVatCreatedDateTime());
+		dbObj.append("vatPayCondition", req.getVatPayCondition());
+		dbObj.append("totalPrice", req.getTotalPrice());
+		dbObj.append("vatUpdatedDateTime", currentDate);
+		
+		return new BasicDBObject("$set", dbObj);
 	}
 
 }

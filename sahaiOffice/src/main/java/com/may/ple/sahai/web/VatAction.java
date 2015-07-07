@@ -3,8 +3,11 @@ package com.may.ple.sahai.web;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +63,10 @@ public class VatAction extends AbstractAction {
 	}
 	
 	@POST
-    @Path("/saveVatIn")
-	public CommonResp saveTask(Vat req) {
+    @Path("/saveVat")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public CommonResp saveVat(Vat req) {
 		CommonResp resp = new CommonResp();
 		
 		try {
@@ -70,8 +75,13 @@ public class VatAction extends AbstractAction {
 			// 1. Validate request criteria
 			validateReq(req);
 			
-			// 2. 
-			BasicDBObject dbObj = vatService.prepareSaveVat(req, 1);
+			// 2.
+			BasicDBObject dbObj;
+			if(req.getVatType().equals("1")) {
+				dbObj = vatService.prepareVatInSave(req, 1);
+			} else {
+				dbObj = vatService.prepareVatOutSave(req);
+			}
 			
 			// 3.
 			vatDao.saveVatIn(dbObj);
@@ -83,5 +93,28 @@ public class VatAction extends AbstractAction {
 		}
 		return resp;
 	}
+	
+	/*@POST
+    @Path("/saveVat")
+	public VatSaveReq saveVat(VatSaveReq req) {
+		VatSaveReq resp = null;
+		
+		try {
+			log.debug("Start");
+			log.debug(req);
+			
+			BasicDBObject dbObj = taskService.prepareVatSave(req);
+			
+			taskDao.update(dbObj, req.getTaskId());
+			resp = taskDao.findVat(req.getTaskId());
+		} catch (Exception e) {
+			log.error(e.toString());
+			resp = new VatSaveReq();
+			resp.setStatus("1");
+		}
+		
+		log.debug("End");
+		return resp;
+	}*/
 
 }

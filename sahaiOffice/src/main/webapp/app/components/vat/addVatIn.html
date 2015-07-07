@@ -16,7 +16,7 @@
 		<label class="col-sm-5 control-label font-color-white-ext"
 			style="margin-right: 15px;">วันที่ออก</label>
 		<div class="col-sm-4 input-group">
-			<input type="text" class="form-control" ng-required="true" datepicker-popup="{{format}}"
+			<input type="text" readonly="readonly" class="form-control" ng-required="true" datepicker-popup="{{format}}"
 				ng-model="formData2.vatInDate" is-open="formData.openedStart"
 				close-text="Close" /> <span class="input-group-btn">
 				<button type="button" class="btn btn-default"
@@ -30,7 +30,7 @@
 		<label class="col-sm-5 control-label font-color-white-ext"
 			style="margin-right: 15px;">กำหนดชำระเงิน</label>
 		<div class="col-sm-4 input-group">
-			<input type="text" class="form-control" ng-required="true" datepicker-popup="{{format}}"
+			<input type="text" readonly="readonly" class="form-control" ng-required="true" datepicker-popup="{{format}}"
 				ng-model="formData2.dueDate" is-open="formData.openedEnd"
 				close-text="Close" /> <span class="input-group-btn">
 				<button type="button" class="btn btn-default"

@@ -1,7 +1,7 @@
 backOffice.controller('addVatInCtrl', function($rootScope, $scope, $filter, $http, $log, $state, editObj, urlContext) {
 	$scope.formData2 = {};
 	$scope.formData2.userName = 'admin';
-	$scope.format = "dd-MM-yyyy";
+	$scope.format = "dd/MM/yyyy";
 	var id = null;
 	var url = null;
 	
@@ -10,10 +10,10 @@ backOffice.controller('addVatInCtrl', function($rootScope, $scope, $filter, $htt
 		$scope.formData2.comments = editObj.data.comments;
 		$scope.formData2.jobName = editObj.data.jobName;			
 		$scope.saveBtnMsg = 'แก้ใข';
-		url = urlContext+'/vatAction/updateVatIn';
+		url = urlContext+'/vatAction/updateVat';
 		id = editObj.data.id;
 	}else{
-		url = urlContext+'/vatAction/saveVatIn';
+		url = urlContext+'/vatAction/saveVat';
 		$scope.saveBtnMsg = 'บันทึก';			
 	}
 	
@@ -26,7 +26,8 @@ backOffice.controller('addVatInCtrl', function($rootScope, $scope, $filter, $htt
 			vatDueDate         : $filter('date')($scope.formData2.dueDate, 'dd/MM/yyyy'),
 			vatPayCondition    : $scope.formData2.payCondition,
 			totalPrice         : $scope.formData2.totalPrice,
-			others             : $scope.formData2.others
+			others             : $scope.formData2.others,
+			vatType            : "1"
 		}).success(function(response) {
 			$scope.result = response;
 			

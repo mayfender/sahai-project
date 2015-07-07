@@ -4,7 +4,7 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 	$scope.totalItems = searchObj.data.totalItems;
 	$scope.itemsPerPage = 5;
 	$scope.maxSize = 5;
-	$scope.format = "dd-MM-yyyy";
+	$scope.format = "dd/MM/yyyy";
 	$scope.formData = {currentPage : 1};
 	var userName = 'admin';
 	

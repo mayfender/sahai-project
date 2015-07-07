@@ -201,7 +201,7 @@
 			<div class="row" style="margin-left: 1px; margin-bottom: 15px;">
 				<label>กำหนดชำระเงิน</label>
 				<div class="col-sm-5 input-group">
-					<input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="data.payDate" is-open="data.openedStart" close-text="Close" /> 
+					<input type="text" readonly="readonly" class="form-control" datepicker-popup="{{format}}" ng-model="data.payDate" is-open="data.openedStart" close-text="Close" /> 
 					<span class="input-group-btn">
 						<button type="button" class="btn btn-default" ng-click="openStart($event)">
 						<i class="glyphicon glyphicon-calendar"></i></button>

@@ -18,7 +18,7 @@
 		<label class="col-sm-5 control-label font-color-white-ext"
 			style="margin-right: 15px;">จากวันที่ (วันที่ออก)</label>
 		<div class="col-sm-4 input-group">
-			<input type="text" class="form-control" datepicker-popup="{{format}}"
+			<input type="text" readonly="readonly" class="form-control" datepicker-popup="{{format}}"
 				ng-model="formData.dateTimeStart" is-open="formData.openedStart"
 				close-text="Close" /> <span class="input-group-btn">
 				<button type="button" class="btn btn-default"
@@ -33,7 +33,7 @@
 		<label class="col-sm-5 control-label font-color-white-ext"
 			style="margin-right: 15px;">ถึงวันที่ (วันที่ออก)</label>
 		<div class="col-sm-4 input-group">
-			<input type="text" class="form-control" datepicker-popup="{{format}}"
+			<input type="text" readonly="readonly" class="form-control" datepicker-popup="{{format}}"
 				ng-model="formData.dateTimeEnd" is-open="formData.openedEnd"
 				close-text="Close" /> <span class="input-group-btn">
 				<button type="button" class="btn btn-default"
@@ -105,8 +105,7 @@
 					<td>{{ x.vatDueDate }}</td>
 					<td>{{ x.totalPrice }}</td>
 					<td>
-						<!-- <img style="cursor: pointer;" title="download" src="../../assets/img/income_icon.png" ng-click="download(x.id)" width="20" /> --> 
-						<img title="ซื้อ" src="../../assets/img/expenses_icon.png" width="20" /> 
+						<img title="{{x.vatType == '1' ? 'ซื้อ' : 'ขาย'}}" src="../../assets/img/{{x.vatType == '1' ? 'expenses_icon.png' : 'income_icon.png'}}" width="20" /> 
 					</td>
 				</tr>
 			</tbody>
