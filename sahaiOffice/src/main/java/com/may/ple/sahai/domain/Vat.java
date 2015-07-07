@@ -13,6 +13,8 @@ public class Vat {
 	private String vatPayNo;
 	private String companyName;
 	private String totalPrice;
+	private String others;
+	private String userName;
 	
 	public String getTotalPrice() {
 		return totalPrice;
@@ -89,6 +91,22 @@ public class Vat {
 
 	public void setVatCreatedDateTime(String vatCreatedDateTime) {
 		this.vatCreatedDateTime = vatCreatedDateTime;
+	}
+
+	public String getOthers() {
+		return others;
+	}
+
+	public void setOthers(String others) {
+		this.others = others;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }

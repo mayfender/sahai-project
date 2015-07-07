@@ -1,6 +1,7 @@
 backOffice.controller('addVatInCtrl', function($rootScope, $scope, $filter, $http, $log, $state, editObj, urlContext) {
 	$scope.formData2 = {};
 	$scope.formData2.userName = 'admin';
+	$scope.format = "dd-MM-yyyy";
 	var id = null;
 	var url = null;
 	
@@ -9,23 +10,23 @@ backOffice.controller('addVatInCtrl', function($rootScope, $scope, $filter, $htt
 		$scope.formData2.comments = editObj.data.comments;
 		$scope.formData2.jobName = editObj.data.jobName;			
 		$scope.saveBtnMsg = 'แก้ใข';
-		url = urlContext+'/jobAction/updateJob';
+		url = urlContext+'/vatAction/updateVatIn';
 		id = editObj.data.id;
 	}else{
-		url = urlContext+'/jobAction/saveJob';
+		url = urlContext+'/vatAction/saveVatIn';
 		$scope.saveBtnMsg = 'บันทึก';			
 	}
 	
 	$scope.saveVatIn = function() {
 		$rootScope.startSpin();
 		$http.post(url, {
-			companyName : $scope.formData2.companyName,
-			comments    : $scope.formData2.docNo,
-			jobName     : $scope.formData2.vatInDate,
-			userName    : $scope.formData2.dueDate,
-			userName    : $scope.formData2.payCondition,
-			userName    : $scope.formData2.totalPrice,
-			userName    : $scope.formData2.others
+			companyName        : $scope.formData2.companyName,
+			vatDocNo           : $scope.formData2.docNo,
+			vatCreatedDateTime : $filter('date')($scope.formData2.vatInDate, 'dd/MM/yyyy'),
+			vatDueDate         : $filter('date')($scope.formData2.dueDate, 'dd/MM/yyyy'),
+			vatPayCondition    : $scope.formData2.payCondition,
+			totalPrice         : $scope.formData2.totalPrice,
+			others             : $scope.formData2.others
 		}).success(function(response) {
 			$scope.result = response;
 			
@@ -48,5 +49,20 @@ backOffice.controller('addVatInCtrl', function($rootScope, $scope, $filter, $htt
 	$scope.goBack = function() {
 		$state.go('junctVat.searchVat');
 	};
+	
+	/*--------------------------------------*/
+	$scope.openStart = function($event) {
+	    $event.preventDefault();
+	    $event.stopPropagation();
+
+	    $scope.formData.openedStart = true;
+	};
+	$scope.openEnd = function($event) {
+	    $event.preventDefault();
+	    $event.stopPropagation();
+
+	    $scope.formData.openedEnd = true;
+	};
+	/*---------------------------------------*/
 
 });

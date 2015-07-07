@@ -89,6 +89,19 @@ public class VatDao {
 		}
 	}
 	
+	public void saveVatIn(BasicDBObject dbObject) {
+		try {
+
+			DB db = mongo.getDb(dbName);
+			DBCollection coll = db.getCollection(collectionVatIn);
+			coll.insert(dbObject);
+
+		} catch (Exception e) {
+			log.error(e.toString());
+			throw e;
+		}
+	}
+	
 	private <T>T getValueByType(Object obj) {
 		if(obj == null) 
 			return null;
