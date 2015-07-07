@@ -71,11 +71,13 @@ public class VatService {
 				.append("vatPayCondition", req.getVatPayCondition())
 				.append("totalPrice", Double.parseDouble(req.getTotalPrice()))
 				.append("vatUpdatedDateTime", new Date())
-				.append("vatType", "1") // 1:vatIn, other:vatOut
+				.append("vatAddress", req.getVatAddress())
+				.append("vatPoNo", req.getVatPoNo())
+				.append("vatType", req.getVatType()) // 1:vatIn, other:vatOut
 				.append("others", req.getOthers());
 		
 		if(module == 1) {
-			dbObj.append("createdDateTime", new Date());
+			dbObj.append("vatCreatedDateTime", new Date());
 			dbObj.append("createdBy", req.getUserName());
 		}else if(module == 2) {
 			dbObj = new BasicDBObject("$set", dbObj);			
@@ -89,26 +91,30 @@ public class VatService {
 		BasicDBObject dbObj = new BasicDBObject();
 		
 		try {
-			if(req.isCreatedVat()) {
+			dbObj.append("companyName", req.getCompanyName());
+			dbObj.append("vatPayDate", req.getVatDueDate());
+			dbObj.append("vatPayCondition", req.getVatPayCondition());
+			dbObj.append("totalPrice", req.getTotalPrice());
+			dbObj.append("vatUpdatedDateTime", currentDate);
+			dbObj.append("vatPoNo", req.getVatPoNo());
+			dbObj.append("vatAddress", req.getVatAddress());
+			
+			if(req.getIsCreatedVat()) {
 				int count = taskDao.countByCurrentDate("vatCreatedDateTime") + 1;
 				String docNo = "SH"+String.format("%1$ty%1$tm-" + String.format("%04d", count), new Date());	
 				
 				dbObj.append("vatDocNo", docNo);
 				dbObj.append("vatCreatedDateTime", currentDate);
-				dbObj.append("vatType", "2"); // 1:vatIn, other:vatOut
-				dbObj.append("taskId", req.getTaskId()); // 1:vatIn, other:vatOut
+				dbObj.append("vatType", req.getVatType()); // 1:vatIn, other:vatOut
+				dbObj.append("taskId", req.getTaskId());
+				dbObj.append("createdBy", req.getUserName());
+			}else{
+				dbObj = new BasicDBObject("$set", dbObj);
 			}
 		} catch (Exception e) {
 			throw e;
 		}
-		
-		dbObj.append("companyName", req.getCompanyName());
-		dbObj.append("vatPayDate", req.getVatCreatedDateTime());
-		dbObj.append("vatPayCondition", req.getVatPayCondition());
-		dbObj.append("totalPrice", req.getTotalPrice());
-		dbObj.append("vatUpdatedDateTime", currentDate);
-		
-		return new BasicDBObject("$set", dbObj);
+		return dbObj;
 	}
 
 }

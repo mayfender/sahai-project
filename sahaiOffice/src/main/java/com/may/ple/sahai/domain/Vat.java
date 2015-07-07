@@ -35,14 +35,6 @@ public class Vat {
 		this.vatPoNo = vatPoNo;
 	}
 
-	public boolean isCreatedVat() {
-		return isCreatedVat;
-	}
-
-	public void setCreatedVat(boolean isCreatedVat) {
-		this.isCreatedVat = isCreatedVat;
-	}
-
 	public String getVatType() {
 		return vatType;
 	}
@@ -134,6 +126,14 @@ public class Vat {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Boolean getIsCreatedVat() {
+		return isCreatedVat;
+	}
+
+	public void setIsCreatedVat(Boolean isCreatedVat) {
+		this.isCreatedVat = isCreatedVat;
 	}
 	
 }
