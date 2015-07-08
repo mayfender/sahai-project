@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.may.ple.sahai.domain.CommonResp;
 import com.may.ple.sahai.domain.SearchVatReq;
 import com.may.ple.sahai.domain.SearchVatResp;
 import com.may.ple.sahai.domain.Vat;
@@ -61,8 +60,8 @@ public class VatAction extends AbstractAction {
 	
 	@POST
     @Path("/saveVat")
-	public CommonResp saveVat(Vat req) {
-		CommonResp resp = new CommonResp();
+	public Vat saveVat(Vat req) {
+		Vat resp = new Vat();
 		
 		try {
 			log.debug("Start >> "+req);
@@ -76,10 +75,19 @@ public class VatAction extends AbstractAction {
 				dbObj = vatService.prepareVatInSave(req, 1);
 			} else {
 				dbObj = vatService.prepareVatOutSave(req);
+				
+				// 3.
+				if(req.getIsCreatedVat()) {
+					vatDao.save(dbObj);
+				}else{
+					vatDao.update(dbObj, req.getTaskId());
+				}
 			}
 			
-			// 3.
-			vatDao.saveVatIn(dbObj);
+			// 4.
+			Map<String, Object> searchVat = vatDao.searchVat(new BasicDBObject("taskId", req.getTaskId()), 1, 1);
+			resp = ((List<Vat>)searchVat.get("vatLst")).get(0);
+			log.debug("resp: " + resp);
 			
 			resp.setStatus("0");
 		} catch (Exception e) {

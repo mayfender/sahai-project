@@ -46,7 +46,7 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 		$scope.vatObj = taskObj.data.vatObj;
 		$scope.isSold = $scope.vatObj != null ? true : false;		
 		$scope.isCreatedVat = $scope.vatObj == null ? true : false;
-		$scope.vatAddress = $scope.vatObj != null ? $scope.vatObj.address : $scope.address;
+		$scope.vatAddress = $scope.vatObj != null ? $scope.vatObj.vatAddress : $scope.address;
 		
 		if($scope.docType == 1) {
 			$scope.isPR = true;	
@@ -213,9 +213,9 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 		          data.totalPrice = $scope.totalPrice;
 		          
 		          if($scope.vatObj != null) {
-		        	  data.payCondition = $scope.vatObj.payCondition;
-		        	  data.payDate = $scope.vatObj.payDate;
-		        	  data.poNo = $scope.vatObj.poNo;		        	  
+		        	  data.payCondition = $scope.vatObj.vatPayCondition;
+		        	  data.payDate = $scope.vatObj.vatDueDate;
+		        	  data.poNo = $scope.vatObj.vatPoNo;		        	  
 		          }
 		          return data;
 		        }
@@ -242,11 +242,10 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 	    		}
 	    		
 	    		$scope.vatObj = {};
-	    		$scope.vatObj.id = response.id;
-	    		$scope.vatObj.payCondition = response.payCondition;
-	    		$scope.vatObj.payDate = response.payDate;
-	    		$scope.vatObj.poNo = response.poNo;
-	    		$scope.vatAddress = response.address;
+	    		$scope.vatObj.vatPayCondition = response.vatPayCondition;
+	    		$scope.vatObj.vatDueDate = response.vatDueDate;
+	    		$scope.vatObj.vatPoNo = response.vatPoNo;
+	    		$scope.vatAddress = response.vatAddress;
 	    		$scope.isCreatedVat = false;
 	    		
 	    		$scope.exportFile(1);

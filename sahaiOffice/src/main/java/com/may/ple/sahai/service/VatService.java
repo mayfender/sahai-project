@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.may.ple.sahai.domain.SearchVatReq;
 import com.may.ple.sahai.domain.Vat;
 import com.may.ple.sahai.repository.TaskDao;
+import com.may.ple.sahai.repository.VatDao;
 import com.mongodb.BasicDBObject;
 
 @Service
@@ -94,13 +95,13 @@ public class VatService {
 			dbObj.append("companyName", req.getCompanyName());
 			dbObj.append("vatPayDate", req.getVatDueDate());
 			dbObj.append("vatPayCondition", req.getVatPayCondition());
-			dbObj.append("totalPrice", req.getTotalPrice());
+			dbObj.append("totalPrice", Double.parseDouble(req.getTotalPrice()));
 			dbObj.append("vatUpdatedDateTime", currentDate);
 			dbObj.append("vatPoNo", req.getVatPoNo());
 			dbObj.append("vatAddress", req.getVatAddress());
 			
 			if(req.getIsCreatedVat()) {
-				int count = taskDao.countByCurrentDate("vatCreatedDateTime") + 1;
+				int count = taskDao.countByCurrentDate(VatDao.collectionVatInOut, "vatCreatedDateTime") + 1;
 				String docNo = "SH"+String.format("%1$ty%1$tm-" + String.format("%04d", count), new Date());	
 				
 				dbObj.append("vatDocNo", docNo);

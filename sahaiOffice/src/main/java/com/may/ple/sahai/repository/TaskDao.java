@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.may.ple.sahai.domain.BuySaleTaskReq;
 import com.may.ple.sahai.domain.ItemInfo;
 import com.may.ple.sahai.domain.TaskInfoResp;
-import com.may.ple.sahai.domain.VatSaveReq;
+import com.may.ple.sahai.domain.Vat;
 import com.may.ple.sahai.utils.DbDataconvert;
 import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBList;
@@ -28,8 +28,8 @@ import com.mongodb.DBObject;
 @Repository
 public class TaskDao {
 	private static final Logger log = Logger.getLogger(TaskDao.class.getName());
+	public static final String collection = "task";
 	private static final String dbName = "sahai-back-office";
-	private static final String collection = "task";
 	private MongoDbFactory mongo;
 	
 	@Autowired
@@ -37,7 +37,7 @@ public class TaskDao {
 		this.mongo = mongo;
 	}
 		
-	public int countByCurrentDate(String dateColumn) throws Exception {
+	public int countByCurrentDate(String collection, String dateColumn) throws Exception {
 		try {
 
 			DB db = mongo.getDb(dbName);
@@ -159,13 +159,6 @@ public class TaskDao {
 			fields.put("vat", 1);
 			fields.put("totalPrice", 1);
 			fields.put("jobId", 1);
-			//-----: Vat 
-			fields.put("vatAddress", 1);
-			fields.put("vatPayCondition", 1);
-			fields.put("vatPayDate", 1);
-			fields.put("vatPoNo", 1);
-			fields.put("vatCreatedDateTime", 1);
-			fields.put("vatDocNo", 1);
 			
 			cursor = coll.find(query, fields);
 			DBObject obj;
@@ -197,23 +190,43 @@ public class TaskDao {
 				result.setJobId(DbDataconvert.<String>getValueByType(obj.get("jobId")));
 				
 				//-----------: Find vat
-				String address = DbDataconvert.<String>getValueByType(obj.get("vatAddress"));
-				String payCondition = DbDataconvert.<String>getValueByType(obj.get("vatPayCondition"));
-				String payDate = DbDataconvert.<String>getValueByType(obj.get("vatPayDate"));
-				String poNo = DbDataconvert.<String>getValueByType(obj.get("vatPoNo"));
-				String vatCreateDateTime = String.format("%1$td/%1$tm/%1$tY", DbDataconvert.<String>getValueByType(obj.get("vatCreatedDateTime")));
-				String vatDocNo = DbDataconvert.<String>getValueByType(obj.get("vatDocNo"));
+				cursor.close();
+				query = new BasicDBObject("taskId", taskId);
 				
-				if(!StringUtils.isBlank(address)) {
-					VatSaveReq vatSaveReq = new VatSaveReq();
-					vatSaveReq.setAddress(address);
-					vatSaveReq.setPayCondition(payCondition);
-					vatSaveReq.setPayDate(payDate);
-					vatSaveReq.setPoNo(poNo);
-					vatSaveReq.setCreatedDateTime(vatCreateDateTime);
-					vatSaveReq.setDocNo(vatDocNo);
-					result.setVatObj(vatSaveReq);
+				fields = new BasicDBObject();
+				fields.put("vatAddress", 1);
+				fields.put("vatPayCondition", 1);
+				fields.put("vatPayDate", 1);
+				fields.put("vatPoNo", 1);
+				fields.put("vatCreatedDateTime", 1);
+				fields.put("vatDocNo", 1);
+				
+				coll = db.getCollection(VatDao.collectionVatInOut);
+				cursor = coll.find(query, fields);
+				DBObject vatObj;
+				
+				if(cursor.hasNext()) {
+					vatObj = cursor.next();
+				
+					String address = DbDataconvert.<String>getValueByType(vatObj.get("vatAddress"));
+					String payCondition = DbDataconvert.<String>getValueByType(vatObj.get("vatPayCondition"));
+					String payDate = DbDataconvert.<String>getValueByType(vatObj.get("vatPayDate"));
+					String poNo = DbDataconvert.<String>getValueByType(vatObj.get("vatPoNo"));
+					String vatCreateDateTime = String.format("%1$td/%1$tm/%1$tY", DbDataconvert.<String>getValueByType(vatObj.get("vatCreatedDateTime")));
+					String vatDocNo = DbDataconvert.<String>getValueByType(vatObj.get("vatDocNo"));
+					
+					if(!StringUtils.isBlank(address)) {
+						Vat vat = new Vat();
+						vat.setVatAddress(address);
+						vat.setVatPayCondition(payCondition);
+						vat.setVatDueDate(payDate);
+						vat.setVatPoNo(poNo);
+						vat.setVatCreatedDateTime(vatCreateDateTime);
+						vat.setVatDocNo(vatDocNo);
+						result.setVatObj(vat);
+					}
 				}
+				//-- end vat
 				
 				BasicDBList items = (BasicDBList)obj.get("items");
 				ItemInfo info;
@@ -275,44 +288,6 @@ public class TaskDao {
 		} catch (Exception e) {
 			log.error(e.toString());
 			throw e;
-		}
-	}
-	
-	public VatSaveReq findVat(String taskId) {
-		DBCursor cursor = null;
-		VatSaveReq resp = null;
-		
-		try {
-			
-			DB db = mongo.getDb(dbName);
-			DBCollection coll = db.getCollection(collection);
-			
-			BasicDBObject query = new BasicDBObject("_id", new ObjectId(taskId));
-			BasicDBObject fields = new BasicDBObject();
-			fields.put("vatAddress", 1);
-			fields.put("vatPayCondition", 1);
-			fields.put("vatPayDate", 1);
-			fields.put("vatPoNo", 1);
-			
-			cursor = coll.find(query, fields);
-			
-			if(cursor.hasNext()) {
-				DBObject obj = cursor.next();
-				
-				resp = new VatSaveReq();
-				resp.setAddress(DbDataconvert.<String>getValueByType(obj.get("vatAddress")));
-				resp.setPayCondition(DbDataconvert.<String>getValueByType(obj.get("vatPayCondition")));
-				resp.setPayDate(DbDataconvert.<String>getValueByType(obj.get("vatPayDate")));
-				resp.setPoNo(DbDataconvert.<String>getValueByType(obj.get("vatPoNo")));
-			}
-			
-			return resp;
-		} catch (Exception e) {
-			log.error(e.toString());
-			throw e;
-		} finally {
-			if (cursor != null)
-				cursor.close();
 		}
 	}
 	

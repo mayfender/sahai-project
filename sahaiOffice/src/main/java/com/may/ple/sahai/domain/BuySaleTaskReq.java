@@ -29,7 +29,7 @@ public class BuySaleTaskReq extends CommonResp {
 	private Double vat;
 	private Double totalPrice;
 	private List<ItemInfo> items;
-	private VatSaveReq vatObj;
+	private Vat vatObj;
 	
 	@Override
 	public String toString() {
@@ -213,11 +213,11 @@ public class BuySaleTaskReq extends CommonResp {
 		this.dateToSend = dateToSend;
 	}
 
-	public VatSaveReq getVatObj() {
+	public Vat getVatObj() {
 		return vatObj;
 	}
 
-	public void setVatObj(VatSaveReq vatObj) {
+	public void setVatObj(Vat vatObj) {
 		this.vatObj = vatObj;
 	}
 	

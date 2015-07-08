@@ -21,8 +21,8 @@ import com.mongodb.DBObject;
 @Repository
 public class VatDao {
 	private static final Logger log = Logger.getLogger(JobDao.class.getName());
+	public static final String collectionVatInOut = "vatInOut";
 	private static final String dbName = "sahai-back-office";
-	private static final String collectionVatInOut = "vatInOut";
 	private MongoDbFactory mongo;
 
 	@Autowired
@@ -88,12 +88,14 @@ public class VatDao {
 			// 1 = show, 0 = not show
 			BasicDBObject fields = new BasicDBObject();
 			fields.put("companyName", 1);
+			fields.put("vatAddress", 1);
 			fields.put("vatDocNo", 1);
 			fields.put("vatPayCondition", 1);
 			fields.put("vatPayDate", 1);
 			fields.put("vatUpdatedDateTime", 1);
 			fields.put("totalPrice", 1);
 			fields.put("vatType", 1);
+			fields.put("vatPoNo", 1);
 			
 			// 1 = asc, -1 = desc
 			BasicDBObject orderBy = new BasicDBObject();
@@ -119,6 +121,8 @@ public class VatDao {
 				vat.setVatCreatedDateTime(String.format("%1$td/%1$tm/%1$tY", this.<Date>getValueByType(obj.get("vatUpdatedDateTime"))));
 				vat.setTotalPrice(String.format("%,.2f", this.<Double>getValueByType(obj.get("totalPrice"))));
 				vat.setVatType(this.<String>getValueByType(obj.get("vatType")));
+				vat.setVatPoNo(this.<String>getValueByType(obj.get("vatPoNo")));
+				vat.setVatAddress(this.<String>getValueByType(obj.get("vatAddress")));
 				
 				searchLst.add(vat);
 			}
@@ -136,12 +140,27 @@ public class VatDao {
 		}
 	}
 	
-	public void saveVatIn(BasicDBObject dbObject) {
+	public void save(BasicDBObject dbObject) {
 		try {
 
 			DB db = mongo.getDb(dbName);
 			DBCollection coll = db.getCollection(collectionVatInOut);
 			coll.insert(dbObject);
+
+		} catch (Exception e) {
+			log.error(e.toString());
+			throw e;
+		}
+	}
+	
+	public void update(BasicDBObject dbObj, String taskId) {
+		try {
+
+			DB db = mongo.getDb(dbName);
+			DBCollection coll = db.getCollection(collectionVatInOut);
+			
+			BasicDBObject where = new BasicDBObject("taskId", taskId);
+			coll.update(where, dbObj);
 
 		} catch (Exception e) {
 			log.error(e.toString());

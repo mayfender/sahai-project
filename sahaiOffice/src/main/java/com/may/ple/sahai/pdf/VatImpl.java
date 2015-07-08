@@ -82,7 +82,7 @@ public class VatImpl extends PdfGenerator {
             ch.setBorder(Rectangle.NO_BORDER);
             pdfPTable.addCell(ch);
             
-            ch = new PdfPCell(new Phrase(emp(taskReq.getVatObj().getPayCondition()), angsa12));
+            ch = new PdfPCell(new Phrase(emp(taskReq.getVatObj().getVatPayCondition()), angsa12));
             ch.setBorder(Rectangle.NO_BORDER);	
             pdfPTable.addCell(ch);
             
@@ -94,7 +94,7 @@ public class VatImpl extends PdfGenerator {
             ch.setBorder(Rectangle.NO_BORDER);
             pdfPTable.addCell(ch);
             
-            ch = new PdfPCell(new Phrase(emp(taskReq.getVatObj().getAddress()), angsa12));
+            ch = new PdfPCell(new Phrase(emp(taskReq.getVatObj().getVatAddress()), angsa12));
             ch.setBorder(Rectangle.NO_BORDER);
             ch.setRowspan(2);
             pdfPTable.addCell(ch);
@@ -106,7 +106,7 @@ public class VatImpl extends PdfGenerator {
             ch.setBorder(Rectangle.NO_BORDER);
             pdfPTable.addCell(ch);
             
-            ch = new PdfPCell(new Phrase(emp(taskReq.getVatObj().getPayDate()), angsa12));
+            ch = new PdfPCell(new Phrase(emp(taskReq.getVatObj().getVatDueDate()), angsa12));
             ch.setBorder(Rectangle.NO_BORDER);	
             pdfPTable.addCell(ch);
             
@@ -117,7 +117,7 @@ public class VatImpl extends PdfGenerator {
             ch.setBorder(Rectangle.NO_BORDER);
             pdfPTable.addCell(ch);
             
-            ch = new PdfPCell(new Phrase(emp(taskReq.getVatObj().getPoNo()), angsa12));
+            ch = new PdfPCell(new Phrase(emp(taskReq.getVatObj().getVatPoNo()), angsa12));
             ch.setBorder(Rectangle.NO_BORDER);	
             pdfPTable.addCell(ch);
             

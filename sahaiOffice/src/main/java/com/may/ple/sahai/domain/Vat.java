@@ -3,7 +3,7 @@ package com.may.ple.sahai.domain;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class Vat {
+public class Vat extends CommonResp {
 	private String id;
 	private String vatDocNo;
 	private String vatAddress;
