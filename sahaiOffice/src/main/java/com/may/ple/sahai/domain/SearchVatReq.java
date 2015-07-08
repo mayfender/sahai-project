@@ -8,12 +8,21 @@ public class SearchVatReq {
 	private String docNo;
 	private String dateTimeStart;
 	private String dateTimeEnd;
+	private String vatType;
 	private Integer currentPage;
 	private Integer itemsPerPage;
 	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE);
+	}
+	
+	public String getVatType() {
+		return vatType;
+	}
+	
+	public void setVatType(String vatType) {
+		this.vatType = vatType;
 	}
 	
 	public Integer getCurrentPage() {

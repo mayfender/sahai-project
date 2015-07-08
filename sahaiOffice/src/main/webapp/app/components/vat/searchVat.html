@@ -46,8 +46,18 @@
 	<div class="form-group">
 		<label class="col-sm-5 control-label font-color-white-ext">เลือกประเภท vat</label>
 		<div class="col-sm-5 form-inline">
-			<label class="font-color-white-ext">vat ซื้อ </label><input type="radio" name="vatType" ng-model="formData.docNo">
-			<label class="font-color-white-ext">vat-ขาย </label><input type="radio" name="vatType" ng-model="formData.docNo">
+			
+		    <div class="btn-group" dropdown is-open="status.isopen">
+		      <button type="button" class="btn dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+		        	{{vatTypeLabel}} <span class="caret"></span>
+		      </button>
+		      <ul class="dropdown-menu" role="menu">
+		        <li><a style="cursor: pointer;" ng-click="test(0, $event)">เลือกทั้งหมด</li>
+		        <li><a style="cursor: pointer;" ng-click="test(1, $event)">vat ซื้อ</a></li>
+		        <li><a style="cursor: pointer;" ng-click="test(2, $event)">vat ขาย</a></li>
+		      </ul>
+		    </div>
+		    
 		</div>
 	</div>
 

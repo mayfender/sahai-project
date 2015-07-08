@@ -36,6 +36,9 @@ public class VatService {
 			if (!StringUtils.isBlank(req.getDocNo())) {
 				dbObj.append("vatDocNo", Pattern.compile(req.getDocNo(), Pattern.CASE_INSENSITIVE));
 			}
+			if(!req.getVatType().equals("0")) {
+				dbObj.append("vatType", req.getVatType());
+			}
 
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:SSS");
 			BasicDBObject dateTime = null;
@@ -55,7 +58,7 @@ public class VatService {
 			}
 
 			if (dateTime != null) {
-				dbObj.append("createdDateTime", dateTime);
+				dbObj.append("releaseVatDate", dateTime);
 			}
 
 			return dbObj;

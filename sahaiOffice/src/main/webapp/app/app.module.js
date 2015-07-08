@@ -148,7 +148,8 @@ backOffice.config(function($stateProvider, $urlRouterProvider, usSpinnerConfigPr
 					return $http.post(urlContext+'/vatAction/searchVat',
 							{
 					    	currentPage       : 1,
-					    	itemsPerPage      : 5
+					    	itemsPerPage      : 5,
+					    	vatType           : 0
 							}
 					       ).then(function(resp){
 					    	   if(resp.data.status != 0) {

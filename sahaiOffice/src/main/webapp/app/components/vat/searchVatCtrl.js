@@ -6,6 +6,8 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 	$scope.maxSize = 5;
 	$scope.format = "dd/MM/yyyy";
 	$scope.formData = {currentPage : 1};
+	$scope.vatTypeLabel = 'เลือกทั้งหมด';
+	$scope.vatTypeSelected = 0;
 	var userName = 'admin';
 	
     $scope.search = function(){
@@ -17,7 +19,8 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 	    	dateTimeStart     : $filter('date')($scope.formData.dateTimeStart, 'dd-MM-yyyy'),
 	    	dateTimeEnd       : $filter('date')($scope.formData.dateTimeEnd, 'dd-MM-yyyy'),
 	    	currentPage       : $scope.formData.currentPage,
-	    	itemsPerPage      : $scope.itemsPerPage
+	    	itemsPerPage      : $scope.itemsPerPage,
+	    	vatType           : $scope.vatTypeSelected
 	    	}
     	).success(function(response) {
     		if(response.status != 0) {
@@ -41,6 +44,23 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 	$scope.addVatIn = function(id) {
 		$state.go('junctVat.addVatIn', {vatInId : id});
 	};
+	
+	
+	
+	
+	/*--------------------------------------*/
+	  $scope.test = function(selected, $event) {
+			$scope.vatTypeSelected = selected;
+			$scope.vatTypeLabel = $event.target.innerHTML;
+			$scope.search();
+	  }
+	
+	  $scope.status = {
+        isopen: false
+      };
+      /*--------------------------------------*/
+      
+      
 
 
 	/*--------------------------------------*/
