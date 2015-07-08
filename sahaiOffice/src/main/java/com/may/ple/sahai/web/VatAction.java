@@ -73,6 +73,7 @@ public class VatAction extends AbstractAction {
 			BasicDBObject dbObj;
 			if(req.getVatType().equals("1")) {
 				dbObj = vatService.prepareVatInSave(req, 1);
+				vatDao.save(dbObj);
 			} else {
 				dbObj = vatService.prepareVatOutSave(req);
 				

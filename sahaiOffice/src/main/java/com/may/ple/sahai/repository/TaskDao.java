@@ -200,20 +200,24 @@ public class TaskDao {
 				fields.put("vatPoNo", 1);
 				fields.put("vatCreatedDateTime", 1);
 				fields.put("vatDocNo", 1);
+				fields.put("releaseVatDate", 1);
+				
 				
 				coll = db.getCollection(VatDao.collectionVatInOut);
 				cursor = coll.find(query, fields);
 				DBObject vatObj;
 				
 				if(cursor.hasNext()) {
+					String dateFormat = "%1$td/%1$tm/%1$tY";
 					vatObj = cursor.next();
 				
 					String address = DbDataconvert.<String>getValueByType(vatObj.get("vatAddress"));
 					String payCondition = DbDataconvert.<String>getValueByType(vatObj.get("vatPayCondition"));
 					String payDate = DbDataconvert.<String>getValueByType(vatObj.get("vatPayDate"));
 					String poNo = DbDataconvert.<String>getValueByType(vatObj.get("vatPoNo"));
-					String vatCreateDateTime = String.format("%1$td/%1$tm/%1$tY", DbDataconvert.<String>getValueByType(vatObj.get("vatCreatedDateTime")));
+					String vatCreateDateTime = String.format(dateFormat, DbDataconvert.<String>getValueByType(vatObj.get("vatCreatedDateTime")));
 					String vatDocNo = DbDataconvert.<String>getValueByType(vatObj.get("vatDocNo"));
+					String releaseVatDate = String.format(dateFormat, DbDataconvert.<Date>getValueByType(obj.get("releaseVatDate")));
 					
 					if(!StringUtils.isBlank(address)) {
 						Vat vat = new Vat();
@@ -223,6 +227,7 @@ public class TaskDao {
 						vat.setVatPoNo(poNo);
 						vat.setVatCreatedDateTime(vatCreateDateTime);
 						vat.setVatDocNo(vatDocNo);
+						vat.setReleaseVatDate(releaseVatDate);
 						result.setVatObj(vat);
 					}
 				}

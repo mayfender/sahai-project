@@ -96,16 +96,18 @@ public class VatDao {
 			fields.put("totalPrice", 1);
 			fields.put("vatType", 1);
 			fields.put("vatPoNo", 1);
+			fields.put("releaseVatDate", 1);
 			
 			// 1 = asc, -1 = desc
 			BasicDBObject orderBy = new BasicDBObject();
-			orderBy.put("vatUpdatedDateTime", -1); 
+			orderBy.put("releaseVatDate", -1); 
 			
 			cursor = coll.find(dbObj, fields);
 			long totalItems = cursor.count();		
 			cursor.skip(itemsPerPage * (currentPage - 1)).limit(itemsPerPage).sort(orderBy);
 			
 			Vat vat;
+			String dateFormat = "%1$td/%1$tm/%1$tY";
 			List<Vat> searchLst = new ArrayList<Vat>();
 			DBObject obj;
 			
@@ -118,11 +120,12 @@ public class VatDao {
 				vat.setVatDocNo(this.<String>getValueByType(obj.get("vatDocNo")));
 				vat.setVatPayCondition(this.<String>getValueByType(obj.get("vatPayCondition")));
 				vat.setVatDueDate(this.<String>getValueByType(obj.get("vatPayDate")));
-				vat.setVatCreatedDateTime(String.format("%1$td/%1$tm/%1$tY", this.<Date>getValueByType(obj.get("vatUpdatedDateTime"))));
+				vat.setVatCreatedDateTime(String.format(dateFormat, this.<Date>getValueByType(obj.get("vatUpdatedDateTime"))));
 				vat.setTotalPrice(String.format("%,.2f", this.<Double>getValueByType(obj.get("totalPrice"))));
 				vat.setVatType(this.<String>getValueByType(obj.get("vatType")));
 				vat.setVatPoNo(this.<String>getValueByType(obj.get("vatPoNo")));
 				vat.setVatAddress(this.<String>getValueByType(obj.get("vatAddress")));
+				vat.setReleaseVatDate(String.format(dateFormat, this.<Date>getValueByType(obj.get("releaseVatDate"))));
 				
 				searchLst.add(vat);
 			}

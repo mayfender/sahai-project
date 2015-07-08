@@ -65,20 +65,22 @@ public class VatService {
 	}
 
 	public BasicDBObject prepareVatInSave(Vat req, int module) throws Exception {
+		Date currentDate = new Date();
+		
 		BasicDBObject dbObj = new BasicDBObject("companyName", req.getCompanyName())
 				.append("vatDocNo", req.getVatDocNo())
-				.append("vatCreatedDate", req.getVatCreatedDateTime())
+				.append("releaseVatDate", new SimpleDateFormat("dd/MM/yyyy").parseObject(req.getVatCreatedDateTime()))
 				.append("vatPayDate", req.getVatDueDate())
 				.append("vatPayCondition", req.getVatPayCondition())
 				.append("totalPrice", Double.parseDouble(req.getTotalPrice()))
-				.append("vatUpdatedDateTime", new Date())
+				.append("vatUpdatedDateTime",  currentDate)
 				.append("vatAddress", req.getVatAddress())
 				.append("vatPoNo", req.getVatPoNo())
 				.append("vatType", req.getVatType()) // 1:vatIn, other:vatOut
 				.append("others", req.getOthers());
 		
 		if(module == 1) {
-			dbObj.append("vatCreatedDateTime", new Date());
+			dbObj.append("vatCreatedDateTime",  currentDate);
 			dbObj.append("createdBy", req.getUserName());
 		}else if(module == 2) {
 			dbObj = new BasicDBObject("$set", dbObj);			
@@ -97,6 +99,7 @@ public class VatService {
 			dbObj.append("vatPayCondition", req.getVatPayCondition());
 			dbObj.append("totalPrice", Double.parseDouble(req.getTotalPrice()));
 			dbObj.append("vatUpdatedDateTime", currentDate);
+			dbObj.append("releaseVatDate", currentDate);
 			dbObj.append("vatPoNo", req.getVatPoNo());
 			dbObj.append("vatAddress", req.getVatAddress());
 			

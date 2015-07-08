@@ -30,7 +30,7 @@ public class ExportService {
 		
 		if(!StringUtils.isBlank(isVat) && isVat.trim().equals("1")) {
 			log.debug("Gen pdf file to VAT format.");
-			taskReq.setCreatedDateTime(taskReq.getVatObj().getVatCreatedDateTime());
+			taskReq.setCreatedDateTime(taskReq.getVatObj().getReleaseVatDate());
 			taskReq.setDocNo(taskReq.getVatObj().getVatDocNo());
 			data = new VatImpl(taskReq).genPdf();
 		} else {
