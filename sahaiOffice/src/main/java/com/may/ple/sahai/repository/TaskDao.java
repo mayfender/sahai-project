@@ -217,7 +217,7 @@ public class TaskDao {
 					String poNo = DbDataconvert.<String>getValueByType(vatObj.get("vatPoNo"));
 					String vatCreateDateTime = String.format(dateFormat, DbDataconvert.<String>getValueByType(vatObj.get("vatCreatedDateTime")));
 					String vatDocNo = DbDataconvert.<String>getValueByType(vatObj.get("vatDocNo"));
-					String releaseVatDate = String.format(dateFormat, DbDataconvert.<Date>getValueByType(obj.get("releaseVatDate")));
+					String releaseVatDate = String.format(dateFormat, DbDataconvert.<Date>getValueByType(vatObj.get("releaseVatDate")));
 					
 					if(!StringUtils.isBlank(address)) {
 						Vat vat = new Vat();

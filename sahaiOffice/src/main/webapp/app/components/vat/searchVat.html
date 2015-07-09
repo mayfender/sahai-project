@@ -52,9 +52,9 @@
 		        	{{vatTypeLabel}} <span class="caret"></span>
 		      </button>
 		      <ul class="dropdown-menu" role="menu">
-		        <li><a style="cursor: pointer;" ng-click="test(0, $event)">เลือกทั้งหมด</li>
-		        <li><a style="cursor: pointer;" ng-click="test(1, $event)">vat ซื้อ</a></li>
-		        <li><a style="cursor: pointer;" ng-click="test(2, $event)">vat ขาย</a></li>
+		        <li><a style="cursor: pointer;" ng-click="vatType(0, $event)">เลือกทั้งหมด</li>
+		        <li><a style="cursor: pointer;" ng-click="vatType(1, $event)">vat ซื้อ</a></li>
+		        <li><a style="cursor: pointer;" ng-click="vatType(2, $event)">vat ขาย</a></li>
 		      </ul>
 		    </div>
 		    
@@ -68,8 +68,7 @@
 
 	<!-- ------------------------------------------------------------------------------- -->
 
-	<div class="container-fluid rounded-border2-ext"
-		style="margin-bottom: 10px; background-color: white;">
+	<div class="container-fluid rounded-border2-ext" style="margin-bottom: 10px; background-color: white;">
 		<div style="position: relative; float: left; left: 10px; top: 8px;">
 			หน้า: {{formData.currentPage}} / {{numPages}} ({{ totalItems}} รายการ)</div>
 		<div style="text-align: right; margin-top: 3px;">
@@ -122,10 +121,21 @@
 					<td>{{ x.vatDueDate }}</td>
 					<td>{{ x.totalPrice }}</td>
 					<td>
-						<img title="{{x.vatType == '1' ? 'ซื้อ' : 'ขาย'}}" src="../../assets/img/{{x.vatType == '1' ? 'expenses_icon.png' : 'income_icon.png'}}" width="20" /> 
+						<img title="{{x.vatType == '1' ? 'ซื้อ' : 'ขาย'}}" src="../../assets/img/{{x.vatType == '1' ? 'expenses_bath_icon.png' : 'income_bath_icon.png'}}" width="20" /> 
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+
+	<div class="panel panel-danger" style="width: 30%; float: right;">
+		<div class="panel-heading">
+			<h3 class="panel-title">Summary</h3>
+		</div>
+		<div class="panel-body">
+			<img src="../../assets/img/income_bath_icon.png" width="20" /> {{ sumVatOutTotalPrice }}&nbsp;&nbsp;&nbsp;
+			<img src="../../assets/img/expenses_bath_icon.png" width="20" /> {{ sumVatInTotalPrice }}
+		</div>
+	</div>
+
 </form>

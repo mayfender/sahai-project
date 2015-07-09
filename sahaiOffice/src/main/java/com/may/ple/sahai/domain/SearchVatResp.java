@@ -8,6 +8,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class SearchVatResp extends CommonResp {
 	private List<Vat> vatLst;
 	private Long totalItems;
+	private String sumVatInTotalPrice;
+	private String sumVatOutTotalPrice;
 	
 	@Override
 	public String toString() {
@@ -28,6 +30,22 @@ public class SearchVatResp extends CommonResp {
 
 	public void setTotalItems(Long totalItems) {
 		this.totalItems = totalItems;
+	}
+
+	public String getSumVatInTotalPrice() {
+		return sumVatInTotalPrice;
+	}
+
+	public void setSumVatInTotalPrice(String sumVatInTotalPrice) {
+		this.sumVatInTotalPrice = sumVatInTotalPrice;
+	}
+
+	public String getSumVatOutTotalPrice() {
+		return sumVatOutTotalPrice;
+	}
+
+	public void setSumVatOutTotalPrice(String sumVatOutTotalPrice) {
+		this.sumVatOutTotalPrice = sumVatOutTotalPrice;
 	}
 
 }

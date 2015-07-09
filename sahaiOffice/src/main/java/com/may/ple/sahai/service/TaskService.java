@@ -69,7 +69,6 @@ public class TaskService {
 		
 		if(module == 1) {
 			dbObj.append("createdDateTime", new Date());
-			dbObj.append("vatCreatedDateTime", new Date(0));
 			dbObj.append("createdBy", req.getUserName());
 		}
 		

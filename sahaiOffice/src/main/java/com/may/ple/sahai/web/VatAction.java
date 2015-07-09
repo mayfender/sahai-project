@@ -46,6 +46,8 @@ public class VatAction extends AbstractAction {
 			BasicDBObject dbObject = vatService.prepareSearchVat(req);
 			Map<String, Object> searchVat = vatDao.searchVat(dbObject, req.getCurrentPage(), req.getItemsPerPage());
 			resp.setVatLst((List<Vat>)searchVat.get("vatLst"));
+			resp.setSumVatInTotalPrice((String)searchVat.get("sumVatInTotalPrice"));
+			resp.setSumVatOutTotalPrice((String)searchVat.get("sumVatOutTotalPrice"));
 			resp.setTotalItems((Long)searchVat.get("totalItems"));
 			
 			log.debug("resp : " + resp);

@@ -2,6 +2,8 @@
 backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filter, $log, $state, searchObj, urlContext, usSpinnerService) {
     $scope.items = searchObj.data.vatLst;
 	$scope.totalItems = searchObj.data.totalItems;
+	$scope.sumVatInTotalPrice = searchObj.data.sumVatInTotalPrice;
+	$scope.sumVatOutTotalPrice = searchObj.data.sumVatOutTotalPrice;
 	$scope.itemsPerPage = 5;
 	$scope.maxSize = 5;
 	$scope.format = "dd/MM/yyyy";
@@ -30,6 +32,9 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 	    	$log.log(response);
 	    	$scope.items      = response.vatLst;
 	    	$scope.totalItems = response.totalItems;
+	    	$scope.sumVatInTotalPrice = response.sumVatInTotalPrice;
+	    	$scope.sumVatOutTotalPrice = response.sumVatOutTotalPrice;
+	    	
 	    	$rootScope.stopSpin();
 	    });  
 	};
@@ -46,22 +51,17 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 	};
 	
 	
-	
-	
-	/*--------------------------------------*/
-	  $scope.test = function(selected, $event) {
-			$scope.vatTypeSelected = selected;
-			$scope.vatTypeLabel = $event.target.innerHTML;
-			$scope.search();
-	  }
-	
-	  $scope.status = {
-        isopen: false
-      };
-      /*--------------------------------------*/
-      
-      
+	/*------------------: Vat type combobox:--------------------*/
+	$scope.vatType = function(selected, $event) {
+		$scope.vatTypeSelected = selected;
+		$scope.vatTypeLabel = $event.target.innerHTML;
+		$scope.search();
+	}
 
+	$scope.status = {
+		isopen : false
+	};
+	/*------------------: Vat type combobox:--------------------*/
 
 	/*--------------------------------------*/
 	$scope.openStart = function($event) {

@@ -109,10 +109,23 @@ public class VatDao {
 			Vat vat;
 			String dateFormat = "%1$td/%1$tm/%1$tY";
 			List<Vat> searchLst = new ArrayList<Vat>();
+			Double sumVatInTotalPrice = new Double(0);
+			Double sumVatOutTotalPrice = new Double(0);
+			Double totalPrice;
+			String vatType;
 			DBObject obj;
 			
 			while (cursor.hasNext()) {
 				obj = cursor.next();
+				
+				vatType = this.<String>getValueByType(obj.get("vatType"));
+				totalPrice = this.<Double>getValueByType(obj.get("totalPrice"));
+				
+				if(vatType.equals("1")) {
+					sumVatInTotalPrice += totalPrice;					
+				}else{
+					sumVatOutTotalPrice += totalPrice;
+				}
 				
 				vat = new Vat();
 				vat.setId(String.valueOf(obj.get("_id")));
@@ -121,8 +134,8 @@ public class VatDao {
 				vat.setVatPayCondition(this.<String>getValueByType(obj.get("vatPayCondition")));
 				vat.setVatDueDate(this.<String>getValueByType(obj.get("vatPayDate")));
 				vat.setVatCreatedDateTime(String.format(dateFormat, this.<Date>getValueByType(obj.get("vatUpdatedDateTime"))));
-				vat.setTotalPrice(String.format("%,.2f", this.<Double>getValueByType(obj.get("totalPrice"))));
-				vat.setVatType(this.<String>getValueByType(obj.get("vatType")));
+				vat.setTotalPrice(String.format("%,.2f", totalPrice));
+				vat.setVatType(vatType);
 				vat.setVatPoNo(this.<String>getValueByType(obj.get("vatPoNo")));
 				vat.setVatAddress(this.<String>getValueByType(obj.get("vatAddress")));
 				vat.setReleaseVatDate(String.format(dateFormat, this.<Date>getValueByType(obj.get("releaseVatDate"))));
@@ -132,6 +145,8 @@ public class VatDao {
 			
 			result.put("vatLst", searchLst);
 			result.put("totalItems", totalItems);
+			result.put("sumVatInTotalPrice", String.format("%,.2f", sumVatInTotalPrice));
+			result.put("sumVatOutTotalPrice", String.format("%,.2f", sumVatOutTotalPrice));
 			
 			return result;
 		} catch (Exception e) {
