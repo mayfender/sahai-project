@@ -49,6 +49,9 @@ public class VatAction extends AbstractAction {
 			resp.setSumVatInTotalPrice((String)searchVat.get("sumVatInTotalPrice"));
 			resp.setSumVatOutTotalPrice((String)searchVat.get("sumVatOutTotalPrice"));
 			resp.setTotalItems((Long)searchVat.get("totalItems"));
+			resp.setBuyVat((String)searchVat.get("buyVat"));
+			resp.setSaleVat((String)searchVat.get("saleVat"));
+			resp.setPayVat((String)searchVat.get("payVat"));			
 			
 			log.debug("resp : " + resp);
 		} catch (Exception e) {

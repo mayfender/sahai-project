@@ -4,6 +4,9 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 	$scope.totalItems = searchObj.data.totalItems;
 	$scope.sumVatInTotalPrice = searchObj.data.sumVatInTotalPrice;
 	$scope.sumVatOutTotalPrice = searchObj.data.sumVatOutTotalPrice;
+	$scope.buyVat = searchObj.data.buyVat;
+	$scope.saleVat = searchObj.data.saleVat;
+	$scope.payVat = searchObj.data.payVat;
 	$scope.itemsPerPage = 5;
 	$scope.maxSize = 5;
 	$scope.format = "dd/MM/yyyy";
@@ -34,6 +37,9 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 	    	$scope.totalItems = response.totalItems;
 	    	$scope.sumVatInTotalPrice = response.sumVatInTotalPrice;
 	    	$scope.sumVatOutTotalPrice = response.sumVatOutTotalPrice;
+	    	$scope.buyVat = response.buyVat;
+	    	$scope.saleVat = response.saleVat;
+	    	$scope.payVat = response.payVat;
 	    	
 	    	$rootScope.stopSpin();
 	    });  

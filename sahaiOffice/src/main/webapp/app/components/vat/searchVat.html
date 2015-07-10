@@ -67,11 +67,16 @@
 	</div>
 
 	<!-- ------------------------------------------------------------------------------- -->
-	<div class="panel panel-danger" style="width: 25%; position: absolute; top: 330px;">
+	<div class="panel panel-danger" style="width: 28%; position: absolute; top: 280px; font-size: 12px;">
 		<!-- <div class="panel-heading">Summary</div> -->
-		<div class="panel-body">
+		<div class="panel-body bg-success">
 			<img src="../../assets/img/income_bath_icon.png" width="20" /> {{ sumVatOutTotalPrice }}&nbsp;&nbsp;&nbsp;
 			<img src="../../assets/img/expenses_bath_icon.png" width="20" /> {{ sumVatInTotalPrice }}
+		</div>
+		<div class="panel-body bg-danger">
+			<img src="../../assets/img/income_bath_icon.png" width="20" /> {{ saleVat }}&nbsp;&nbsp;&nbsp;
+			<img src="../../assets/img/expenses_bath_icon.png" width="20" /> {{ buyVat }}
+			&nbsp;&nbsp;&nbsp;&nbsp;รวมต้องจ่าย vat {{ payVat }}
 		</div>
 	</div>
 

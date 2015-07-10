@@ -82,6 +82,8 @@ public class VatDao {
 		Map<String, Object> result = new HashMap<String, Object>();
 		Double sumVatInTotalPrice = new Double(0);
 		Double sumVatOutTotalPrice = new Double(0);
+		Double buyVat = new Double(0);
+		Double saleVat = new Double(0);
 		DBCursor cursor = null;
 		
 		try {
@@ -94,7 +96,8 @@ public class VatDao {
 			
 			BasicDBObject group = new BasicDBObject()
 			.append("$group", new BasicDBObject("_id", "$vatType")
-			.append("sumTotalPrice", new BasicDBObject("$sum", "$totalPrice")));
+			.append("sumTotalPrice", new BasicDBObject("$sum", "$totalPrice"))
+			.append("vat", new BasicDBObject("$sum", "$vat")));
 			
 			BasicDBObject fields = new BasicDBObject();
 			AggregationOutput output = coll.aggregate(match, group);
@@ -104,11 +107,14 @@ public class VatDao {
 				for (DBObject obj : report) {
 					String vatType = DbDataconvert.<String>getValueByType(obj.get("_id"));
 					Double sumTotalPrice = DbDataconvert.<Double>getValueByType(obj.get("sumTotalPrice"));
+					Double vat = DbDataconvert.<Double>getValueByType(obj.get("vat"));
 					
 					if(vatType.equals("1")) {
 						sumVatInTotalPrice = sumTotalPrice;
+						buyVat = vat;
 					}else{
 						sumVatOutTotalPrice = sumTotalPrice;
+						saleVat = vat;
 					}
 				}				
 			}
@@ -168,6 +174,9 @@ public class VatDao {
 			result.put("totalItems", totalItems);
 			result.put("sumVatInTotalPrice", String.format("%,.2f", sumVatInTotalPrice));
 			result.put("sumVatOutTotalPrice", String.format("%,.2f", sumVatOutTotalPrice));
+			result.put("buyVat", String.format("%,.2f", buyVat));
+			result.put("saleVat", String.format("%,.2f", saleVat));
+			result.put("payVat", String.format("%,.2f", saleVat - buyVat));
 			
 			return result;
 		} catch (Exception e) {

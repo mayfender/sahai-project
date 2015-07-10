@@ -10,7 +10,34 @@ public class SearchVatResp extends CommonResp {
 	private Long totalItems;
 	private String sumVatInTotalPrice;
 	private String sumVatOutTotalPrice;
+	private String buyVat;
+	private String saleVat;
+	private String payVat;
 	
+	public String getPayVat() {
+		return payVat;
+	}
+
+	public void setPayVat(String payVat) {
+		this.payVat = payVat;
+	}
+
+	public String getBuyVat() {
+		return buyVat;
+	}
+
+	public void setBuyVat(String buyVat) {
+		this.buyVat = buyVat;
+	}
+
+	public String getSaleVat() {
+		return saleVat;
+	}
+
+	public void setSaleVat(String saleVat) {
+		this.saleVat = saleVat;
+	}
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE);
