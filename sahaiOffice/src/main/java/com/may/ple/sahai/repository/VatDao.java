@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.stereotype.Repository;
 
 import com.may.ple.sahai.domain.Vat;
+import com.may.ple.sahai.utils.DbDataconvert;
+import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -78,6 +80,8 @@ public class VatDao {
 
 	public Map<String, Object> searchVat(BasicDBObject dbObj, Integer currentPage, Integer itemsPerPage) {
 		Map<String, Object> result = new HashMap<String, Object>();
+		Double sumVatInTotalPrice = new Double(0);
+		Double sumVatOutTotalPrice = new Double(0);
 		DBCursor cursor = null;
 		
 		try {
@@ -85,8 +89,33 @@ public class VatDao {
 			DB db = mongo.getDb(dbName);
 			DBCollection coll = db.getCollection(collectionVatInOut);
 			
-			// 1 = show, 0 = not show
+			/*---------------: report :-------------------*/
+			BasicDBObject match = new BasicDBObject("$match", dbObj);
+			
+			BasicDBObject group = new BasicDBObject()
+			.append("$group", new BasicDBObject("_id", "$vatType")
+			.append("sumTotalPrice", new BasicDBObject("$sum", "$totalPrice")));
+			
 			BasicDBObject fields = new BasicDBObject();
+			AggregationOutput output = coll.aggregate(match, group);
+			List<DBObject> report = (List<DBObject>)output.results();
+			
+			if(report != null) {
+				for (DBObject obj : report) {
+					String vatType = DbDataconvert.<String>getValueByType(obj.get("_id"));
+					Double sumTotalPrice = DbDataconvert.<Double>getValueByType(obj.get("sumTotalPrice"));
+					
+					if(vatType.equals("1")) {
+						sumVatInTotalPrice = sumTotalPrice;
+					}else{
+						sumVatOutTotalPrice = sumTotalPrice;
+					}
+				}				
+			}
+			/*---------------: report :-------------------*/
+			
+			// 1 = show, 0 = not show
+			fields = new BasicDBObject();
 			fields.put("companyName", 1);
 			fields.put("vatAddress", 1);
 			fields.put("vatDocNo", 1);
@@ -109,8 +138,6 @@ public class VatDao {
 			Vat vat;
 			String dateFormat = "%1$td/%1$tm/%1$tY";
 			List<Vat> searchLst = new ArrayList<Vat>();
-			Double sumVatInTotalPrice = new Double(0);
-			Double sumVatOutTotalPrice = new Double(0);
 			Double totalPrice;
 			String vatType;
 			DBObject obj;
@@ -120,12 +147,6 @@ public class VatDao {
 				
 				vatType = this.<String>getValueByType(obj.get("vatType"));
 				totalPrice = this.<Double>getValueByType(obj.get("totalPrice"));
-				
-				if(vatType.equals("1")) {
-					sumVatInTotalPrice += totalPrice;					
-				}else{
-					sumVatOutTotalPrice += totalPrice;
-				}
 				
 				vat = new Vat();
 				vat.setId(String.valueOf(obj.get("_id")));
