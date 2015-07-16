@@ -13,6 +13,8 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.may.ple.sahai.domain.BuySaleJobReq;
@@ -28,6 +30,7 @@ public class JobAction extends AbstractAction {
 	private static final Logger log = Logger.getLogger(JobAction.class.getName());
 	private JobService jobService;
 	private JobDao jobDao;
+	private Authentication auth;
 	
 	@Autowired
 	public JobAction(JobService jobService, JobDao jobDao) {
@@ -48,7 +51,11 @@ public class JobAction extends AbstractAction {
 			// 1. Validate request criteria
 			validateReq(req);
 			
-			// 2. Prepare data for persistence
+			// 2. Prepare data for persistence			
+			auth = SecurityContextHolder.getContext().getAuthentication();
+			
+			req.setUserName(auth.getName());
+			
 			BasicDBObject dbObj = jobService.prepareSaveJob(req);
 			
 			jobDao.save(dbObj);

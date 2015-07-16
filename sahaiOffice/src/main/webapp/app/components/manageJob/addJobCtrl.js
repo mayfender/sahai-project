@@ -1,6 +1,5 @@
 backOffice.controller('addJobCtrl', function($rootScope, $scope, $filter, $http, $log, $state, editObj, urlContext) {
 	$scope.formData2 = {};
-	$scope.formData2.userName = 'admin';
 	var id = null;
 	var url = null;
 	
@@ -22,8 +21,7 @@ backOffice.controller('addJobCtrl', function($rootScope, $scope, $filter, $http,
 			id          : id,
 			companyName : $scope.formData2.companyName,
 			comments    : $scope.formData2.comments,
-			jobName     : $scope.formData2.jobName,
-			userName    : $scope.formData2.userName
+			jobName     : $scope.formData2.jobName
 		}).success(function(response) {
 			$scope.result = response;
 			
