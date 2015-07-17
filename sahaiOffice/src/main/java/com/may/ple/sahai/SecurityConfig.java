@@ -13,23 +13,31 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth
+    public void configureGlobal(AuthenticationManagerBuilder auth,
+    				MongoUserDetailsService mongoUserDetailsService) throws Exception {
+		/*auth
         	.inMemoryAuthentication()
-            	.withUser("yo").password("123").roles("USER");
+            	.withUser("yo").password("123").roles("USER").and()
+            	.withUser("may").password("456").roles("USER", "GO");*/
+		
+		auth
+			.userDetailsService(mongoUserDetailsService);
     }
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.csrf().disable()
+		http.csrf().disable()
 			.authorizeRequests()
+				.antMatchers("/resResource/**").hasRole("ADMIN")
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
-				.loginPage("/index.html")
+				.loginPage("/app/components/login/login.html")
 				.defaultSuccessUrl("/app/components/index.html", true)
-				.permitAll();
+				.failureUrl("/app/components/login/fail.html")
+				.permitAll()
+				.and()
+			.logout().logoutUrl("/");
 	}
 
 }
