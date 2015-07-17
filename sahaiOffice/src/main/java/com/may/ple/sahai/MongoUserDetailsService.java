@@ -20,7 +20,7 @@ public class MongoUserDetailsService implements UserDetailsService {
         user.setUsername("mayfender");
         user.setPassword("1234");
         Role r = new Role();
-        r.setName("ROLE_ADMIN");
+        r.setRolename("ROLE_ADMIN");
         List<Role> roles = new ArrayList<Role>();
         roles.add(r);
         user.setAuthorities(roles);

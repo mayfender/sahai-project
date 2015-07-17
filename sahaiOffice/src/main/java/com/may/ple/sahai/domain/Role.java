@@ -5,19 +5,19 @@ import org.springframework.security.core.GrantedAuthority;
 public class Role implements GrantedAuthority {
 	
 	private static final long serialVersionUID = 1L;
-	private String name;
+	private String rolename;
 	
 	@Override
 	public String getAuthority() {
-		return name;
+		return rolename;
 	}
 
-	public String getName() {
-		return name;
+	public String getRolename() {
+		return rolename;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setRolename(String rolename) {
+		this.rolename = rolename;
 	}
 
 }
