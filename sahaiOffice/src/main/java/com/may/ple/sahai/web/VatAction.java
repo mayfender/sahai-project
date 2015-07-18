@@ -8,6 +8,8 @@ import javax.ws.rs.Path;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.may.ple.sahai.domain.SearchVatReq;
@@ -21,8 +23,9 @@ import com.mongodb.BasicDBObject;
 @Path("vatAction")
 public class VatAction extends AbstractAction {
 	private static final Logger log = Logger.getLogger(VatAction.class.getName());
-	private VatDao vatDao;
 	private VatService vatService;
+	private Authentication auth;
+	private VatDao vatDao;
 	
 	@Autowired
 	public VatAction(VatDao vatDao, VatService vatService) {
@@ -74,7 +77,11 @@ public class VatAction extends AbstractAction {
 			// 1. Validate request criteria
 			validateReq(req);
 			
-			// 2.
+			// 2. UserDetail
+			auth = SecurityContextHolder.getContext().getAuthentication();
+			req.setUserName(auth.getName());
+			
+			// 3.
 			BasicDBObject dbObj;
 			if(req.getVatType().equals("1")) {
 				dbObj = vatService.prepareVatInSave(req, 1);

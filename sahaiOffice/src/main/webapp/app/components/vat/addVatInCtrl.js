@@ -1,6 +1,5 @@
 backOffice.controller('addVatInCtrl', function($rootScope, $scope, $filter, $http, $log, $state, editObj, urlContext) {
 	$scope.formData2 = {};
-	$scope.formData2.userName = 'admin';
 	$scope.format = "dd/MM/yyyy";
 	var id = null;
 	var url = null;

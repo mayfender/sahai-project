@@ -13,7 +13,6 @@ backOffice.controller('searchVatCtrl', function($rootScope, $scope, $http, $filt
 	$scope.formData = {currentPage : 1};
 	$scope.vatTypeLabel = 'เลือกทั้งหมด';
 	$scope.vatTypeSelected = 0;
-	var userName = 'admin';
 	
     $scope.search = function(){
     	$rootScope.startSpin();

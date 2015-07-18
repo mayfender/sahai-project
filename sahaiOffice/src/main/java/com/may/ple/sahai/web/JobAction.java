@@ -29,8 +29,8 @@ import com.mongodb.BasicDBObject;
 public class JobAction extends AbstractAction {
 	private static final Logger log = Logger.getLogger(JobAction.class.getName());
 	private JobService jobService;
-	private JobDao jobDao;
 	private Authentication auth;
+	private JobDao jobDao;
 	
 	@Autowired
 	public JobAction(JobService jobService, JobDao jobDao) {
@@ -100,17 +100,20 @@ public class JobAction extends AbstractAction {
 	
 	@GET
 	@Path("/deleteJob")
-	public CommonResp deleteJob(@QueryParam("jobId") String jobId, @QueryParam("userName") String userName) {
+	public CommonResp deleteJob(@QueryParam("jobId") String jobId) {
 		CommonResp resp = new CommonResp();
 		
 		try {
-			log.debug("Start >> " + jobId + " -- " + userName);
+			log.debug("Start >> " + jobId);
 			
 			// 1. Validate request criteria
-			validateReq(jobId, userName);
+			validateReq(jobId);
 			
-			// 2. Process delete
-			jobDao.delete(jobId, userName);
+			// 2. UserDetail
+			auth = SecurityContextHolder.getContext().getAuthentication();
+			
+			// 3. Process delete
+			jobDao.delete(jobId, auth.getName());
 			
 			resp.setStatus("0");
 		} catch (Exception e) {
@@ -159,7 +162,11 @@ public class JobAction extends AbstractAction {
 			// 1. Validate request criteria
 			validateReq(req);
 			
-			// 2. Process updating
+			// 2. UserDetail
+			auth = SecurityContextHolder.getContext().getAuthentication();
+			req.setUserName(auth.getName());
+			
+			// 3. Process updating
 			BasicDBObject dbObj = jobService.prepareUpdateJob(req);
 			
 			jobDao.update(new BasicDBObject("$set", dbObj), req.getId());

@@ -10,12 +10,13 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.may.ple.sahai.domain.BuySaleTaskReq;
 import com.may.ple.sahai.domain.BuySaleTaskResp;
 import com.may.ple.sahai.domain.CommonResp;
-import com.may.ple.sahai.domain.VatSaveReq;
 import com.may.ple.sahai.repository.TaskDao;
 import com.may.ple.sahai.service.TaskService;
 import com.mongodb.BasicDBObject;
@@ -25,6 +26,7 @@ import com.mongodb.BasicDBObject;
 public class TaskAction extends AbstractAction {
 	private static final Logger log = Logger.getLogger(TaskAction.class.getName());
 	private TaskService taskService;
+	private Authentication auth;
 	private TaskDao taskDao;
 	
 	@Autowired
@@ -46,7 +48,11 @@ public class TaskAction extends AbstractAction {
 			// 1. Validate request criteria
 			validateReq(req);
 			
-			// 2. 
+			// 2. UserDetail
+			auth = SecurityContextHolder.getContext().getAuthentication();
+			req.setUserName(auth.getName());
+			
+			// 3. 
 			BasicDBObject dbObj = taskService.prepareJobData(req, 1);
 			dbObj.append("jobId", req.getJobId());
 			
@@ -121,7 +127,11 @@ public class TaskAction extends AbstractAction {
 			// 1. Validate request criteria
 			validateReq(req);
 			
-			// 2.
+			// 2. UserDetail
+			auth = SecurityContextHolder.getContext().getAuthentication();
+			req.setUserName(auth.getName());
+			
+			// 3.
 			BasicDBObject dbObj = taskService.prepareJobData(req, 2);
 			taskDao.update(dbObj, req.getId());
 			
@@ -135,17 +145,20 @@ public class TaskAction extends AbstractAction {
 	
 	@GET
 	@Path("/deleteTask")
-	public CommonResp deleteTask(@QueryParam("taskId") String taskId, @QueryParam("userName") String userName) {
+	public CommonResp deleteTask(@QueryParam("taskId") String taskId) {
 		CommonResp resp = new CommonResp();
 		
 		try {
-			log.debug("Start >> taskId: "+taskId + " userName:" + userName);
+			log.debug("Start >> taskId: "+taskId);
 			
 			// 1. Validate request criteria
-			validateReq(taskId, userName);
+			validateReq(taskId);
 			
-			// 2.
-			taskDao.delete(taskId, userName);
+			// 2. UserDetail
+			auth = SecurityContextHolder.getContext().getAuthentication();
+			
+			// 3.
+			taskDao.delete(taskId, auth.getName());
 			
 			resp.setStatus("0");
 		} catch (Exception e) {
@@ -159,19 +172,23 @@ public class TaskAction extends AbstractAction {
 	
 	@GET
 	@Path("/copyTask")
-	public CommonResp copyTask(@QueryParam("taskId") String taskId, @QueryParam("userName") String userName) {
+	public CommonResp copyTask(@QueryParam("taskId") String taskId) {
 		CommonResp resp = new CommonResp();
 		
 		try {
-			log.debug("Start >> taskId: "+taskId + " userName:" + userName);
+			log.debug("Start >> taskId: "+taskId);
 			
 			// 1. Validate request criteria
-			validateReq(taskId, userName);
+			validateReq(taskId);
 			
-			// 2.
-			BuySaleTaskReq buySaleTaskReq = taskDao.findTask(taskId);
+			// 2. UserDetail
+			auth = SecurityContextHolder.getContext().getAuthentication();
 			
 			// 3.
+			BuySaleTaskReq buySaleTaskReq = taskDao.findTask(taskId);
+			buySaleTaskReq.setUserName(auth.getName());
+			
+			// 4.
 			BasicDBObject dbObj = taskService.prepareJobData(buySaleTaskReq, 1);
 			dbObj.append("jobId", buySaleTaskReq.getJobId());
 			taskDao.saveTask(dbObj);

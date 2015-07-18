@@ -6,7 +6,6 @@ backOffice.controller('searchJobCtrl', function($rootScope, $scope, $http, $filt
 	$scope.maxSize = 5;
 	$scope.format = "dd/MM/yyyy";
 	$scope.formData = {currentPage : 1};
-	var userName = 'admin';
 	
     $scope.search = function(){
     	$rootScope.startSpin();
@@ -38,7 +37,7 @@ backOffice.controller('searchJobCtrl', function($rootScope, $scope, $http, $filt
 		if(r != true) return;
 		
 		$rootScope.startSpin();
-		$http.get(urlContext+'/jobAction/deleteJob?jobId='+id+'&userName='+userName)
+		$http.get(urlContext+'/jobAction/deleteJob?jobId='+id)
 		.success(function(response) {
 	    		if(response.status != 0) {
 	    			alert('Have some Error!!');
