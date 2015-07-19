@@ -6,11 +6,15 @@ backOffice.controller('addVatInCtrl', function($rootScope, $scope, $filter, $htt
 	
 	if(editObj != null){
 		$scope.formData2.companyName = editObj.data.companyName;
-		$scope.formData2.comments = editObj.data.comments;
-		$scope.formData2.jobName = editObj.data.jobName;			
+		$scope.formData2.docNo = editObj.data.vatDocNo;
+		$scope.formData2.vatInDate = editObj.data.vatInDate;
+		$scope.formData2.dueDate = editObj.data.vatDueDate;
+		$scope.formData2.payCondition = editObj.data.vatPayCondition;
+		$scope.formData2.totalPrice = editObj.data.totalPrice;
+		$scope.formData2.others = editObj.data.others;
 		$scope.saveBtnMsg = 'แก้ใข';
-		url = urlContext+'/vatAction/updateVat';
-		id = editObj.data.id;
+		//url = urlContext+'/vatAction/updateVat';
+		//id = editObj.data.id;
 	}else{
 		url = urlContext+'/vatAction/saveVat';
 		$scope.saveBtnMsg = 'บันทึก';			

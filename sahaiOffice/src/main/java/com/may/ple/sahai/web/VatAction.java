@@ -3,8 +3,10 @@ package com.may.ple.sahai.web;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +107,29 @@ public class VatAction extends AbstractAction {
 			resp.setStatus("0");
 		} catch (Exception e) {
 			log.error(e.toString());
+			resp.setStatus("1");
+		}
+		return resp;
+	}
+	
+	@GET
+    @Path("/findVat")
+	public Vat findVat(@QueryParam("vatInId") String vatId) {
+		Vat resp;
+		
+		try {
+			log.debug("Start >> " + vatId);
+			
+			// 1. Validate request criteria
+			validateReq(vatId);
+			
+			// 2.
+			resp = vatDao.findVat(vatId);
+			
+			log.debug("resp >> " + resp);
+		} catch (Exception e) {
+			log.error(e.toString());
+			resp = new Vat();
 			resp.setStatus("1");
 		}
 		return resp;

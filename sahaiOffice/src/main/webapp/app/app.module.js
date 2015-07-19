@@ -176,15 +176,15 @@ backOffice.config(function($stateProvider, $urlRouterProvider, usSpinnerConfigPr
 		resolve    : {
 			editObj : function($rootScope, $http, $stateParams, urlContext){
 				if($stateParams.vatInId) {
-					/*$rootScope.startSpin();
-					return $http.get(urlContext+'/taskAction/findTask?taskId='+$stateParams.taskId).
+					$rootScope.startSpin();
+					return $http.get(urlContext+'/vatAction/findVat?vatInId='+$stateParams.vatInId).
 					then(function(resp){
 				    	   if(resp.data.status != 0) {
 				    		   console.log('Have error!');
 				    	   }
 				    	   $rootScope.stopSpin();
 				    	   return resp;
-				       });*/
+				       });
 				}
 			}
 	    },

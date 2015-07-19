@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.stereotype.Repository;
 
+import com.may.ple.sahai.domain.BuySaleJobReq;
 import com.may.ple.sahai.domain.Vat;
 import com.may.ple.sahai.utils.DbDataconvert;
 import com.mongodb.AggregationOutput;
@@ -198,6 +200,46 @@ public class VatDao {
 		} catch (Exception e) {
 			log.error(e.toString());
 			throw e;
+		}
+	}
+	
+	public Vat findVat(String vatId) {
+		Vat result = null;
+		DBCursor cursor = null;
+		
+		try {
+			
+			DB db = mongo.getDb(dbName);
+			DBCollection coll = db.getCollection(collectionVatInOut);
+			
+			BasicDBObject fields = new BasicDBObject();
+			fields.put("companyName", 1);
+			fields.put("vatDocNo", 1);
+			fields.put("vatPayCondition", 1);
+			fields.put("vatPoNo", 1);
+			
+			BasicDBObject dbObj = new BasicDBObject("_id", new ObjectId(vatId));
+			cursor = coll.find(dbObj, fields);
+			
+			result = new Vat();
+			if(cursor.hasNext()) {
+				DBObject obj = cursor.next();
+				result.setId(vatId);
+				result.setCompanyName(this.<String>getValueByType(obj.get("companyName")));
+				result.setVatDocNo(this.<String>getValueByType(obj.get("vatDocNo")));
+				result.setVatPayCondition(this.<String>getValueByType(obj.get("vatPayCondition")));
+				result.setVatPoNo(this.<String>getValueByType(obj.get("vatPoNo")));
+//				result.setTotalPrice(this.<String>getValueByType(""));
+//				result.setVatDueDate();
+			}
+			
+			return result;
+		} catch (Exception e) {
+			log.error(e.toString());
+			throw e;
+		} finally {
+			if (cursor != null)
+				cursor.close();
 		}
 	}
 	

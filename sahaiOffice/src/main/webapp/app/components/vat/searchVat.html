@@ -94,11 +94,11 @@
 			<col style="width: 6%">
 			<col style="width: 10%">
 			<col style="width: 10%">
-			<col style="width: 30%">
+			<col style="width: 28%">
 			<col style="width: 14%">
 			<col style="width: 10%">
 			<col style="width: 15%">
-			<col style="width: 5%">
+			<col style="width: 7%">
 			<thead class="font-color-white-ext"
 				style="background-color: #DA6307;">
 				<tr align="center">
@@ -134,6 +134,7 @@
 					<td>{{ x.totalPrice }}</td>
 					<td>
 						<img title="{{x.vatType == '1' ? 'ซื้อ' : 'ขาย'}}" src="../../assets/img/{{x.vatType == '1' ? 'expenses_bath_icon.png' : 'income_bath_icon.png'}}" width="20" /> 
+						<img style="cursor: pointer; visibility: {{x.vatType == '1' ? 'none' : 'hidden'}};" title="แก้ใข" src="../../assets/img/setting_icon.png" width="20" ng-click="addVatIn(x.id)">
 					</td>
 				</tr>
 			</tbody>
