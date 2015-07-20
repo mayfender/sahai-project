@@ -96,6 +96,7 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 //	    	discount          : $scope.discount,
 //	    	afterDiscount     : $scope.afterDiscount,
 	    	vat               : $scope.vat,
+	    	userName          : $scope.userName,
 	    	totalPrice        : $scope.totalPrice,
 	    	items             : $scope.taskItems
 	    	}

@@ -50,7 +50,6 @@ public class TaskAction extends AbstractAction {
 			
 			// 2. UserDetail
 			auth = SecurityContextHolder.getContext().getAuthentication();
-			req.setUserName(auth.getName());
 			
 			// 3. 
 			BasicDBObject dbObj = taskService.prepareJobData(req, 1);
@@ -129,7 +128,6 @@ public class TaskAction extends AbstractAction {
 			
 			// 2. UserDetail
 			auth = SecurityContextHolder.getContext().getAuthentication();
-			req.setUserName(auth.getName());
 			
 			// 3.
 			BasicDBObject dbObj = taskService.prepareJobData(req, 2);
