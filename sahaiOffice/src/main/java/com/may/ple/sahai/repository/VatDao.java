@@ -1,6 +1,7 @@
 package com.may.ple.sahai.repository;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.stereotype.Repository;
 
-import com.may.ple.sahai.domain.BuySaleJobReq;
 import com.may.ple.sahai.domain.Vat;
 import com.may.ple.sahai.utils.DbDataconvert;
 import com.mongodb.AggregationOutput;
@@ -79,6 +79,38 @@ public class VatDao {
 			if(dbClient != null) dbClient.close();			
 		}
 	}*/
+	
+	public int countByCurrentDate() throws Exception {
+		try {
+
+			DB db = mongo.getDb(dbName);
+			DBCollection coll = db.getCollection(collectionVatInOut);
+			
+			BasicDBObject project = new BasicDBObject()
+			.append("$project", new BasicDBObject("year", new BasicDBObject("$year", "$vatCreatedDateTime"))
+			.append("month", 
+					new BasicDBObject("$month", "$vatCreatedDateTime"))
+					.append("vatType", "$vatType")
+					.append("isDeleted", "$isDeleted"));
+			
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+			int month = Calendar.getInstance().get(Calendar.MONTH);
+			
+			BasicDBObject match = new BasicDBObject();
+			match.put("$match", 
+					new BasicDBObject("year", year)
+					.append("month", month + 1)
+					.append("vatType", "2")
+					.append("isDeleted", new BasicDBObject("$ne", true)));
+			
+			AggregationOutput output = coll.aggregate(project, match);
+			
+			return ((List)output.results()).size();
+		} catch (Exception e) {
+			log.error(e.toString());
+			throw e;
+		}
+	}
 
 	public Map<String, Object> searchVat(BasicDBObject dbObj, Integer currentPage, Integer itemsPerPage) {
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -217,6 +249,10 @@ public class VatDao {
 			fields.put("vatDocNo", 1);
 			fields.put("vatPayCondition", 1);
 			fields.put("vatPoNo", 1);
+			fields.put("totalPrice", 1);
+			fields.put("vatPayDate", 1);
+			fields.put("releaseVatDate", 1);
+			fields.put("others", 1);
 			
 			BasicDBObject dbObj = new BasicDBObject("_id", new ObjectId(vatId));
 			cursor = coll.find(dbObj, fields);
@@ -229,8 +265,10 @@ public class VatDao {
 				result.setVatDocNo(this.<String>getValueByType(obj.get("vatDocNo")));
 				result.setVatPayCondition(this.<String>getValueByType(obj.get("vatPayCondition")));
 				result.setVatPoNo(this.<String>getValueByType(obj.get("vatPoNo")));
-//				result.setTotalPrice(this.<String>getValueByType(""));
-//				result.setVatDueDate();
+				result.setOthers(this.<String>getValueByType(obj.get("others")));
+				result.setTotalPrice(String.format("%.2f", this.<Double>getValueByType(obj.get("totalPrice"))));
+				result.setVatDueDate(this.<String>getValueByType(obj.get("vatPayDate")));
+				result.setReleaseVatDate(String.format("%1$td/%1$tm/%1$tY", this.<Date>getValueByType(obj.get("releaseVatDate"))));
 			}
 			
 			return result;
@@ -243,13 +281,13 @@ public class VatDao {
 		}
 	}
 	
-	public void update(BasicDBObject dbObj, String taskId) {
+	public void update(BasicDBObject dbObj, String id) {
 		try {
 
 			DB db = mongo.getDb(dbName);
 			DBCollection coll = db.getCollection(collectionVatInOut);
 			
-			BasicDBObject where = new BasicDBObject("taskId", taskId);
+			BasicDBObject where = new BasicDBObject("_id", new ObjectId(id));
 			coll.update(where, dbObj);
 
 		} catch (Exception e) {

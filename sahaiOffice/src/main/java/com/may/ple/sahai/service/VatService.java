@@ -10,17 +10,16 @@ import org.springframework.stereotype.Service;
 
 import com.may.ple.sahai.domain.SearchVatReq;
 import com.may.ple.sahai.domain.Vat;
-import com.may.ple.sahai.repository.TaskDao;
 import com.may.ple.sahai.repository.VatDao;
 import com.mongodb.BasicDBObject;
 
 @Service
 public class VatService {
-	private TaskDao taskDao;
+	private VatDao vatDao;
 	
 	@Autowired
-	public VatService(TaskDao taskDao) {
-		this.taskDao = taskDao;
+	public VatService(VatDao vatDao) {
+		this.vatDao = vatDao;
 	}
 	
 	public BasicDBObject prepareSearchVat(SearchVatReq req) throws Exception {
@@ -84,13 +83,14 @@ public class VatService {
 				.append("vatUpdatedDateTime",  currentDate)
 				.append("vatAddress", req.getVatAddress())
 				.append("vatPoNo", req.getVatPoNo())
-				.append("vatType", req.getVatType()) // 1:vatIn, other:vatOut
 				.append("others", req.getOthers());
 		
 		if(module == 1) {
+			dbObj.append("vatType", req.getVatType()); // 1:vatIn, other:vatOut
 			dbObj.append("vatCreatedDateTime",  currentDate);
 			dbObj.append("createdBy", req.getUserName());
 		}else if(module == 2) {
+			dbObj.append("updatedBy", req.getUserName());
 			dbObj = new BasicDBObject("$set", dbObj);			
 		}
 		
@@ -118,7 +118,7 @@ public class VatService {
 			dbObj.append("vatAddress", req.getVatAddress());
 			
 			if(req.getIsCreatedVat()) {
-				int count = taskDao.countByCurrentDate(VatDao.collectionVatInOut, "vatCreatedDateTime") + 1;
+				int count = vatDao.countByCurrentDate() + 1;
 				String docNo = "SH"+String.format("%1$ty%1$tm-" + String.format("%04d", count), new Date());	
 				
 				dbObj.append("vatDocNo", docNo);
@@ -127,6 +127,7 @@ public class VatService {
 				dbObj.append("taskId", req.getTaskId());
 				dbObj.append("createdBy", req.getUserName());
 			}else{
+				dbObj.append("updatedBy", req.getUserName());
 				dbObj = new BasicDBObject("$set", dbObj);
 			}
 		} catch (Exception e) {

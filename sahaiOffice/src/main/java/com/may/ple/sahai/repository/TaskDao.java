@@ -37,15 +37,15 @@ public class TaskDao {
 		this.mongo = mongo;
 	}
 		
-	public int countByCurrentDate(String collection, String dateColumn) throws Exception {
+	public int countByCurrentDate() throws Exception {
 		try {
 
 			DB db = mongo.getDb(dbName);
 			DBCollection coll = db.getCollection(collection);
 			
 			BasicDBObject project = new BasicDBObject()
-			.append("$project", new BasicDBObject("year", new BasicDBObject("$year", "$"+dateColumn))
-			.append("month", new BasicDBObject("$month", "$"+dateColumn)).append("isDeleted", "$isDeleted"));
+			.append("$project", new BasicDBObject("year", new BasicDBObject("$year", "$createdDateTime"))
+			.append("month", new BasicDBObject("$month", "$createdDateTime")).append("isDeleted", "$isDeleted"));
 			
 			int year = Calendar.getInstance().get(Calendar.YEAR);
 			int month = Calendar.getInstance().get(Calendar.MONTH);
@@ -211,6 +211,7 @@ public class TaskDao {
 					String dateFormat = "%1$td/%1$tm/%1$tY";
 					vatObj = cursor.next();
 				
+					String id = String.valueOf(vatObj.get("_id"));
 					String address = DbDataconvert.<String>getValueByType(vatObj.get("vatAddress"));
 					String payCondition = DbDataconvert.<String>getValueByType(vatObj.get("vatPayCondition"));
 					String payDate = DbDataconvert.<String>getValueByType(vatObj.get("vatPayDate"));
@@ -221,6 +222,7 @@ public class TaskDao {
 					
 					if(!StringUtils.isBlank(address)) {
 						Vat vat = new Vat();
+						vat.setId(id);
 						vat.setVatAddress(address);
 						vat.setVatPayCondition(payCondition);
 						vat.setVatDueDate(payDate);

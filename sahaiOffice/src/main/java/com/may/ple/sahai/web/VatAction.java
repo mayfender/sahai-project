@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import com.may.ple.sahai.domain.CommonResp;
 import com.may.ple.sahai.domain.SearchVatReq;
 import com.may.ple.sahai.domain.SearchVatResp;
 import com.may.ple.sahai.domain.Vat;
@@ -68,6 +69,13 @@ public class VatAction extends AbstractAction {
 		return resp;
 	}
 	
+	/**
+	 * 
+	 * @param req
+	 * @return
+	 * Have to return the saved item for outVat for updating the module dialog.
+	 * But the vat object result isn't to be used in vatIn save.
+	 */
 	@POST
     @Path("/saveVat")
 	public Vat saveVat(Vat req) {
@@ -95,7 +103,7 @@ public class VatAction extends AbstractAction {
 				if(req.getIsCreatedVat()) {
 					vatDao.save(dbObj);
 				}else{
-					vatDao.update(dbObj, req.getTaskId());
+					vatDao.update(dbObj, req.getId());
 				}
 			}
 			
@@ -135,27 +143,31 @@ public class VatAction extends AbstractAction {
 		return resp;
 	}
 	
-	/*@POST
-    @Path("/saveVat")
-	public VatSaveReq saveVat(VatSaveReq req) {
-		VatSaveReq resp = null;
+	@POST
+    @Path("/updateVat")
+	public CommonResp updateVat(Vat req) {
+		CommonResp resp = new SearchVatResp();
 		
 		try {
-			log.debug("Start");
-			log.debug(req);
+			log.debug("Start >> "+req);
 			
-			BasicDBObject dbObj = taskService.prepareVatSave(req);
+			// 1. Validate request criteria
+			validateReq(req);
 			
-			taskDao.update(dbObj, req.getTaskId());
-			resp = taskDao.findVat(req.getTaskId());
+			// 2. UserDetail
+			auth = SecurityContextHolder.getContext().getAuthentication();
+			req.setUserName(auth.getName());
+			
+			// 3.
+			BasicDBObject dbObj = vatService.prepareVatInSave(req, 2);
+			vatDao.update(dbObj, req.getId());
+			
+			resp.setStatus("0");
 		} catch (Exception e) {
 			log.error(e.toString());
-			resp = new VatSaveReq();
 			resp.setStatus("1");
 		}
-		
-		log.debug("End");
 		return resp;
-	}*/
+	}
 
 }

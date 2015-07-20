@@ -31,7 +31,7 @@ public class TaskService {
 		if(module == 2) {
 			format = req.getDocNo().substring(2);
 		}else{
-			int count = taskDao.countByCurrentDate(TaskDao.collection, "createdDateTime") + 1;
+			int count = taskDao.countByCurrentDate() + 1;
 			format = String.format("%1$ty%1$tm-" + String.format("%04d", count), new Date());
 		}
 		

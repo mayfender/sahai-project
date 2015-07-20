@@ -18,6 +18,7 @@ public class Vat extends CommonResp {
 	private String vatType;
 	private String taskId;
 	private String releaseVatDate;
+	
 	public String getReleaseVatDate() {
 		return releaseVatDate;
 	}

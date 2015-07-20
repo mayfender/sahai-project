@@ -1,20 +1,20 @@
 backOffice.controller('addVatInCtrl', function($rootScope, $scope, $filter, $http, $log, $state, editObj, urlContext) {
 	$scope.formData2 = {};
 	$scope.format = "dd/MM/yyyy";
-	var id = null;
-	var url = null;
+	var url;
+	var id;
 	
 	if(editObj != null){
 		$scope.formData2.companyName = editObj.data.companyName;
 		$scope.formData2.docNo = editObj.data.vatDocNo;
-		$scope.formData2.vatInDate = editObj.data.vatInDate;
+		$scope.formData2.vatInDate = editObj.data.releaseVatDate;
 		$scope.formData2.dueDate = editObj.data.vatDueDate;
 		$scope.formData2.payCondition = editObj.data.vatPayCondition;
 		$scope.formData2.totalPrice = editObj.data.totalPrice;
 		$scope.formData2.others = editObj.data.others;
 		$scope.saveBtnMsg = 'แก้ใข';
-		//url = urlContext+'/vatAction/updateVat';
-		//id = editObj.data.id;
+		url = urlContext+'/vatAction/updateVat';
+		id = editObj.data.id;
 	}else{
 		url = urlContext+'/vatAction/saveVat';
 		$scope.saveBtnMsg = 'บันทึก';			
@@ -23,6 +23,7 @@ backOffice.controller('addVatInCtrl', function($rootScope, $scope, $filter, $htt
 	$scope.saveVatIn = function() {
 		$rootScope.startSpin();
 		$http.post(url, {
+			id				   : id,
 			companyName        : $scope.formData2.companyName,
 			vatDocNo           : $scope.formData2.docNo,
 			vatCreatedDateTime : $filter('date')($scope.formData2.vatInDate, 'dd/MM/yyyy'),

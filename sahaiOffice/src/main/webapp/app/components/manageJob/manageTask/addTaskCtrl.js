@@ -224,6 +224,7 @@ backOffice.controller('addTaskCtrl', function($rootScope, $scope, $modal, $http,
 		 modalInstance.result.then(function (result) {
 			 $http.post(urlContext+'/vatAction/saveVat', 
 		    	    {
+				 	id: 			  $scope.vatObj == null ? null : $scope.vatObj.id,
 				 	isCreatedVat:     $scope.isCreatedVat,
 				 	taskId: 	      $scope.taskId,
 				 	vatAddress:       result.address,
