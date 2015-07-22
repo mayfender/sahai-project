@@ -253,6 +253,7 @@ public class VatDao {
 			fields.put("vatPayDate", 1);
 			fields.put("releaseVatDate", 1);
 			fields.put("others", 1);
+			fields.put("vatType", 1);
 			
 			BasicDBObject dbObj = new BasicDBObject("_id", new ObjectId(vatId));
 			cursor = coll.find(dbObj, fields);
@@ -269,6 +270,7 @@ public class VatDao {
 				result.setTotalPrice(String.format("%.2f", this.<Double>getValueByType(obj.get("totalPrice"))));
 				result.setVatDueDate(this.<String>getValueByType(obj.get("vatPayDate")));
 				result.setReleaseVatDate(String.format("%1$td/%1$tm/%1$tY", this.<Date>getValueByType(obj.get("releaseVatDate"))));
+				result.setVatType(this.<String>getValueByType(obj.get("vatType")));
 			}
 			
 			return result;

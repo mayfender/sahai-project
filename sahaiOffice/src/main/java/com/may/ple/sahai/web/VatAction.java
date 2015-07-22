@@ -154,11 +154,17 @@ public class VatAction extends AbstractAction {
 			// 1. Validate request criteria
 			validateReq(req);
 			
-			// 2. UserDetail
+			// 2. Check vatType for sure only vatType equal 1 can be updated. 
+			String vatType = vatDao.findVat(req.getId()).getVatType();
+			if(vatType.equals("2")) {
+				throw new Exception("This record don't have permission to updated.");
+			}
+			
+			// 3. UserDetail
 			auth = SecurityContextHolder.getContext().getAuthentication();
 			req.setUserName(auth.getName());
 			
-			// 3.
+			// 4.
 			BasicDBObject dbObj = vatService.prepareVatInSave(req, 2);
 			vatDao.update(dbObj, req.getId());
 			
