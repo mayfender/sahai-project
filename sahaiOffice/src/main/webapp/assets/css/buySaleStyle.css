@@ -16,8 +16,8 @@ body {
 .gradient {
 	 background-image:
     radial-gradient(
-      #E68A00,
-      #800000
+      #2c3338,
+      #2c3338
     );
 }
 
@@ -27,7 +27,13 @@ body {
 
 .rounded-border-ext{
     border: 2px solid;
-    border-radius: 15px;
+    /* border-radius: 15px; */
+    
+    border-top-left-radius: 0em;
+	border-top-right-radius: 0em;
+	border-bottom-right-radius: 1em;
+	border-bottom-left-radius: 1em;
+	 
     box-shadow: 5px 5px 5px #00001A;
 }
 
