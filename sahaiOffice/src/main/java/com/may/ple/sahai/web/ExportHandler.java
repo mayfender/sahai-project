@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 import com.may.ple.sahai.service.ExportService;
 
 @Component
-@Path("exportHandler")
+@Path("/exportHandler")
 public class ExportHandler {
 	private static final Logger log = Logger.getLogger(ExportHandler.class.getName());
 	private ExportService exportService;
