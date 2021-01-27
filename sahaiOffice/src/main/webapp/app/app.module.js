@@ -1,6 +1,6 @@
 var backOffice = angular.module('backOffice', ['ui.router', 'ui.bootstrap', 'angularSpinner']);
 
-backOffice.value('urlContext', 'http://localhost:8080/sahaiOffice/resResource');
+backOffice.value('urlContext', 'http://localhost:8081/sahaiOffice/resResource');
 
 backOffice.run(function($rootScope, usSpinnerService) {
 	$rootScope.startSpin = function(){
